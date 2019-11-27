@@ -341,6 +341,9 @@
     if(is_blank($item['date_added'])) {
       $errors[] = "Please specify the date this item was added";
     }
+    if($item['date_added'] > date('Y-l-M')){
+      $errors[] = "Date can not be in the future";
+    }
 
     // location = number?
     if(!is_numeric($item['location'])){
@@ -666,7 +669,7 @@
     $sql = "select * from people ";
     $sql .= "where admin_id in ";
     $sql .= "(select owner_id from content ";
-    $sql .= "where date_added <= now()-interval 1 month) ";
+    $sql .= "where date_added <= now()-interval 3 month) ";
     $sql .= "and admin_id != 0";
     // $sql .= "group by owner_id ";
     $result = mysqli_query($db, $sql);
@@ -678,7 +681,7 @@
     global $db;
 
     $sql = "select * from content where owner_id = " . $owner_id . " ";
-    $sql .= "and date_added <= now()-interval 1 month ";
+    $sql .= "and date_added <= now()-interval 3 month ";
     $result = mysqli_query($db, $sql);
     return $result;
   }

@@ -20,7 +20,7 @@ $table = "content";
 <div id="content">
 
   <?php //if(has_presence($msg)) { ?>
-    <a class="back-link" href="<?php url_for('/staff/index.php') ?>">&laquo; Back</a>
+    <a class="back-link" href="<?= url_for('/staff/index.php'); ?>">&laquo; Back</a>
   <?php //}else{ ?>
     <!-- <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a> -->
   <?php //} ?>
@@ -54,7 +54,8 @@ $table = "content";
       </dl>
       <dl>
         <dt>Date Added</dt>
-        <dd><?php echo h($item['date_added']); ?></dd>
+        <dd><?php if($item['date_added'] > date('today')) {echo "true";}else{echo "false";} ?></dd>
+        <!-- <dd><?php //echo h($item['date_added']); ?></dd> -->
       </dl>
     </div>
     <?php page_links($table); ?>

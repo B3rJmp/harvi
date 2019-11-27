@@ -11,24 +11,33 @@
             $owners = audit_owners();
 
             foreach($owners as $owner){
-                echo "<h1>" . $owner['first_name'] . "</h1>";
-                echo "<ul>";
+                // echo "<h1>" . $owner['first_name'] . "</h1>";
+                // echo "<ul>";
                 $items = audit_items($owner['admin_id']);
+                // $to = $owner['email'];
+                $to = 'thanerstevens@gmail.com';
+                $subject = "Warehouse Audit";
+                $headers = array('From' => 'thane.stevens2@thermofisher.com');
+                $message = "Hey " . ucfirst($owner['first_name']) . ", we found some items in the warehouse that have been there a while, we were wondering what you want to do with them: <br>";
+                $message .= "<ul>";
                 foreach($items as $item){
-                    echo "<li>";
-                    if(isset($item['work_order'])){echo $item['work_order'] . ", ";}
-                    echo $item['description'] . "</li>";
+                    $message .= "<li>";
+                    if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
+                    $message .= $item['description'] . "</li>";
                 }
-                echo "</ul>";
+                $message .= "</ul><br>";
+                $message .= "In any case, come and find me if you have any questions, thanks!!";
+                if(isset($to) && $to != NULL && $to != ''){
+                    $mail = mail($to, $subject, $message, $headers);
+                }
             }
         }else{
-            echo "Today is the first monday of the month.<br>";
-            echo "Audit has been performed.";
+            // $_SESSION['message'] = "Last audit was done " . $first_monday . ".";
         }
     }else{
         $_SESSION['audit'] = 0;
-        echo "Today is " . $today . ".<br>";
-        echo "Last audit was performed on " . $first_monday . ".";
+        // echo "Today is " . $today . ".<br>";
+        // echo "Last audit was performed on " . $first_monday . ".";
         // unset($_SESSION['audit']);
     }
     // echo "<br>" . $_SESSION['audit'];

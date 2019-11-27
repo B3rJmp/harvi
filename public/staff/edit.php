@@ -35,12 +35,7 @@ if(is_post_request()) {
 } else {
 
   $item = find_item_by_id($id);
-  if($_SESSION['admin_id'] == $item['owner_id']) {
-    // continue
-  }else{
-    require_manager();
-    die();
-  }
+  is_user($item);
   $locations = find_all_locations();
   $people = find_all_admins();
 
@@ -57,7 +52,7 @@ if(is_post_request()) {
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/staff/my_items.php'); ?>">&laquo; Back to List</a>
 
   <div class="subject edit">
     <h1>Edit Item</h1>

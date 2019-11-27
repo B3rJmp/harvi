@@ -90,11 +90,12 @@
     }
   }
 
-  function is_user($id) {
-    if(is_manager() || get_viewer_type() == $id) {
-      return true;
+  function is_user($item) {
+    if($_SESSION['admin_id'] == $item['owner_id']) {
+      // continue
     }else{
-      return false;
+      require_manager();
+      // die();
     }
   }
 
