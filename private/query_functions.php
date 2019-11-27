@@ -1,0 +1,687 @@
+<?php
+  function list_all_admins($limit){
+    global $db;
+    $page = $_GET['page'] ?? 1;
+    $offset = $limit * ($page - 1);
+
+    $sql = "SELECT * FROM people ";
+    $sql .= "JOIN ";
+    $sql .= "view_type on people.type = view_type.type_id ";
+    $sql .= "where admin_id >= 1 ";
+    $sql .= "ORDER BY viewer_type asc ";
+    $sql .= "limit " . $limit . " offset " . $offset ;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_all_admins(){
+    global $db;
+
+    $sql = "SELECT * FROM people ";
+    $sql .= "JOIN ";
+    $sql .= "view_type on people.type = view_type.type_id ";
+    $sql .= "where admin_id >= 1 ";
+    $sql .= "ORDER BY last_name asc ";
+    // $sql .= "limit " .  . " offset " .  ;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_all_types() {
+    global $db;
+
+    $sql = "select * from view_type ";
+    $data = mysqli_query($db, $sql);
+    confirm_result_set($data);
+    // $result = mysqli_fetch_assoc($data);
+    return $data;
+  }
+
+  function find_admin_by_id($id) {
+    global $db;
+
+    $sql = "SELECT * FROM people ";
+    $sql .= "JOIN ";
+    $sql .= "view_type on people.type = view_type.type_id ";
+    $sql .= "WHERE admin_id='" . db_escape($db, $id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $admin = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $admin; // returns an assoc. array
+  }
+
+  function view_user_profile() {
+    global $db;
+    
+    $sql = "SELECT * FROM people ";
+    $sql .= "JOIN ";
+    $sql .= "view_type on people.type = view_type.type_id ";
+    $sql .= "where admin_id = " . $_SESSION['admin_id'] . " ";
+    $sql .= "limit 1";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $user = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $user;
+  }
+
+  function find_admin_by_username($username) {
+    global $db;
+
+    $sql = "SELECT * FROM people ";
+    $sql .= "WHERE username='" . db_escape($db, $username) . "' ";
+    $sql .= "LIMIT 1";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $admin = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $admin; // returns an assoc. array
+  }
+
+  function validate_admin($admin, $options=[]) {
+
+    $password_required = $options['password_required'] ?? true;
+    if(is_blank($admin['first_name'])) {
+      $errors[] = "First name cannot be blank.";
+    } elseif (!has_length($admin['first_name'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "First name must be between 2 and 255 characters.";
+    }
+
+    if(is_blank($admin['last_name'])) {
+      $errors[] = "Last name cannot be blank.";
+    } elseif (!has_length($admin['last_name'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "Last name must be between 2 and 255 characters.";
+    }
+
+    if(is_blank($admin['email'])) {
+      $errors[] = "Email cannot be blank.";
+    } elseif (!has_length($admin['email'], array('max' => 255))) {
+      $errors[] = "Last name must be less than 255 characters.";
+    } elseif (!has_valid_email_format($admin['email'])) {
+      $errors[] = "Email must be a valid format.";
+    }
+
+    if(is_blank($admin['username'])) {
+      $errors[] = "Username cannot be blank.";
+    } elseif (!has_length($admin['username'], array('min' => 8, 'max' => 255))) {
+      $errors[] = "Username must be between 8 and 255 characters.";
+    } elseif (!has_unique_username($admin['username'], $admin['id'] ?? 0)) {
+      $errors[] = "Username has already been taken.";
+    }
+    if($password_required){
+      if(is_blank($admin['password'])) {
+        $errors[] = "Password cannot be blank.";
+      } elseif (!has_length($admin['password'], array('min' => 8))) {
+        $errors[] = "Password must contain 8 or more characters";
+      } elseif (!preg_match('/[A-Z]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 uppercase letter";
+      } elseif (!preg_match('/[a-z]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 lowercase letter";
+      } elseif (!preg_match('/[0-9]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 number";
+      } elseif (!preg_match('/[^A-Za-z0-9\s]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 symbol";
+      }
+    
+
+      if(is_blank($admin['password_confirm'])) {
+        $errors[] = "Confirm password cannot be blank.";
+      } elseif ($admin['password'] !== $admin['password_confirm']) {
+        $errors[] = "Password and confirm password must match.";
+      }
+    }
+
+    return $errors;
+  }
+
+  function insert_admin($admin){
+    global $db;
+
+    $errors = validate_admin($admin);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    $hashed_password = password_hash($admin['password'], PASSWORD_BCRYPT);
+
+    $sql = "INSERT INTO people ";
+    $sql .= "(first_name, last_name, type, email, username, hashed_password) ";
+    $sql .= "VALUES (";
+    $sql .= "'" . db_escape($db, $admin['first_name']) . "',";
+    $sql .= "'" . db_escape($db, $admin['last_name']) . "',";
+    $sql .= "'" . db_escape($db, $admin['permission']) . "',";
+    $sql .= "'" . db_escape($db, $admin['email']) . "',";
+    $sql .= "'" . db_escape($db, $admin['username']) . "',";
+    $sql .= "'" . db_escape($db, $hashed_password) . "'";
+    $sql .= ")";
+    $result = mysqli_query($db, $sql);
+    // For INSERT statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // INSERT failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function update_admin($admin){
+    global $db;
+
+    $password_sent = !is_blank($admin['password']);
+
+    $errors = validate_admin($admin, ['password_required' => $password_sent]);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    $hashed_password = password_hash($admin['password'], PASSWORD_BCRYPT);
+
+    $sql = "UPDATE people SET ";
+    $sql .= "first_name='" . db_escape($db, $admin['first_name']) . "', ";
+    $sql .= "last_name='" . db_escape($db, $admin['last_name']) . "', ";
+    $sql .= "email='" . db_escape($db, $admin['email']) . "', ";
+    $sql .= "type='" . db_escape($db, $admin['permission']) . "', ";
+    if($password_sent){
+      $sql .= "hashed_password='" . db_escape($db, $hashed_password) . "', ";
+    }
+    $sql .= "username='" . db_escape($db, $admin['username']) . "' ";
+    $sql .= "WHERE admin_id='" . db_escape($db, $admin['id']) . "' ";
+    $sql .= "LIMIT 1";
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function delete_admin($id){
+    global $db;
+
+    $sql = "DELETE FROM people ";
+    $sql .= "WHERE admin_id='" . db_escape($db, $id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = mysqli_query($db, $sql);
+
+    // For DELETE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // DELETE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function list_all_items($limit = 10){
+    global $db;
+    $page = $_GET['page'] ?? 1;
+    $offset = $limit * ($page - 1);
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "order by location asc, work_order desc, id asc ";
+    $sql .= "limit " . $limit . " offset " . $offset;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_all_items(){
+    global $db;
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "order by location asc, work_order desc, id asc ";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_my_items(){
+    global $db;
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "where owner_id = " . $_SESSION['admin_id'] . " ";
+    $sql .= "order by location_name asc ";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+  
+  function find_item_by_id($id) {
+    global $db;
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "WHERE id='" . db_escape($db, $id) . "' ";
+    $sql .= "LIMIT 1";
+    // echo $sql;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $admin = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $admin; // returns an assoc. array
+  }
+
+  function find_items_by_location($location) {
+    global $db;
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "where location_id = " . $location . " ";
+    $sql .= "order by location_id asc";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_items_by_owner($owner) {
+    global $db;
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "where admin_id = " . $owner . " ";
+    $sql .= "order by location_id asc";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function validate_item($item) {
+    $errors = [];
+
+    // location
+    if(is_blank($item['location'])) {
+      $item['location'] = 68;
+    }
+
+    // description
+    if(is_blank($item['description'])) {
+      $errors[] = "Item must have a description";
+    }
+
+    // quantity
+    if(is_blank($item['quantity'])) {
+      $errors[] = "Item must have a quantity";
+    }
+
+    // date added
+    if(is_blank($item['date_added'])) {
+      $errors[] = "Please specify the date this item was added";
+    }
+
+    // location = number?
+    if(!is_numeric($item['location'])){
+      $errors[] = "Something is wrong with the selected location";
+    }
+    
+    // owner_id = number?
+    if($item['owner_id'] != NULL && !is_numeric($item['owner_id'])){
+      $errors[] = "Something is wrong with the selected owner";
+    }
+
+    return $errors;
+  }
+
+  function insert_item($item) {
+    global $db;
+
+    $errors = validate_item($item);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    // shift_page_positions(0, $item['position'], $item['subject_id']);
+
+    $sql = "INSERT INTO content ";
+    $sql .= "(location, work_order, description, quantity, owner_id, date_added) ";
+    $sql .= "VALUES (";
+    $sql .= "'" . db_escape($db, $item['location']) . "', ";
+    $sql .= is_empty($item['work_order']) . ", ";
+    $sql .= "'" . db_escape($db, $item['description']) . "', ";
+    $sql .= "'" . db_escape($db, $item['quantity']) . "', ";
+    $sql .= db_escape($db, no_owner($item['owner_id'])) . ", ";
+    $sql .= "'" . db_escape($db, $item['date_added']) . "'";
+    $sql .= ")";
+    echo $sql;
+    $result = mysqli_query($db, $sql);
+    // For INSERT statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // INSERT failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function update_item($item){
+    global $db;
+
+    // $password_sent = !is_blank($item['password']);
+
+    $errors = validate_item($item);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    // $hashed_password = password_hash($item['password'], PASSWORD_BCRYPT);
+
+    $sql = "UPDATE content SET ";
+    $sql .= "location='" . db_escape($db, $item['location']) . "', ";
+    $sql .= "work_order = " . is_empty($item['work_order']) . ", ";
+    $sql .= "owner_id='" . db_escape($db, no_owner($item['owner_id'])) . "', ";
+    $sql .= "description='" . db_escape($db, $item['description']) . "', ";
+    $sql .= "quantity='" . db_escape($db, $item['quantity']) . "', ";
+    $sql .= "date_added='" . db_escape($db, $item['date_added']) . "' ";
+    $sql .= "WHERE id='" . db_escape($db, $item['id']) . "' ";
+    $sql .= "LIMIT 1";
+    echo $sql;
+    // var_dump($sql);
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function delete_item($id){
+    global $db;
+
+    $sql = "DELETE FROM content ";
+    $sql .= "WHERE id='" . db_escape($db, $id) . "' ";
+    $sql .= "LIMIT 1";
+    $result = mysqli_query($db, $sql);
+
+    // For DELETE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // DELETE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function list_all_locations($limit = 10) {
+    global $db;
+    $page = $_GET['page'] ?? 1;
+    $offset = $limit * ($page - 1);
+
+    $sql = "select * from locations ";
+    $sql .= "order by location_name ";
+    $sql .= "limit " . $limit . " offset " . $offset;
+    // $sql .= "join content on locations.location_id = content.location ";
+    // $sql .= "group by location";
+    $data = mysqli_query($db, $sql);
+    confirm_result_set($data);
+    // $result = mysqli_fetch_assoc($data);
+    return $data;
+  }
+
+  function locations_by_alphabet($region = 'a') {
+    global $db;
+
+    $sql = "select * from locations ";
+    $sql .= "where location_name like '" . strtolower($region) . "%' ";
+    $sql .= "order by location_name ";
+    // $sql .= "join content on locations.location_id = content.location ";
+    // $sql .= "group by location";
+    $data = mysqli_query($db, $sql);
+    confirm_result_set($data);
+    // $result = mysqli_fetch_assoc($data);
+    return $data;
+  }
+
+  function find_all_locations() {
+    global $db;
+    // $page = $_GET['page'] ?? 1;
+    // $offset = $limit * ($page - 1);
+
+    $sql = "select * from locations ";
+    $sql .= "order by location_name ";
+    // $sql .= "limit " . $limit . " offset " . $offset;
+    // $sql .= "join content on locations.location_id = content.location ";
+    // $sql .= "group by location";
+    $data = mysqli_query($db, $sql);
+    confirm_result_set($data);
+    // $result = mysqli_fetch_assoc($data);
+    return $data;
+  }
+
+  function find_location_by_id($id) {
+    global $db;
+
+    $sql = "SELECT * FROM locations ";
+    $sql .= "WHERE location_id=" . db_escape($db, $id) . " ";
+    $sql .= "LIMIT 1";
+    // echo $sql;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $location = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $location; // returns an assoc. array
+  }
+
+  function validate_location($location) {
+    $errors = [];
+
+    // Name
+    if(isset($location['name'])){
+      if(is_blank($location['name'])) {
+        $errors[] = "Location must have a name";
+      }
+    }
+
+    // Pallet
+    if(!isset($location['pallet']) || $location['pallet'] == '') {
+      $location['pallet'] = false;
+    }else{
+      $location['pallet'] = true;
+    }
+
+    return $errors;
+  }
+
+  function update_location($location){
+    global $db;
+
+    // $password_sent = !is_blank($location['password']);
+
+    $errors = validate_location($location);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    // $hashed_password = password_hash($location['password'], PASSWORD_BCRYPT);
+
+    $sql = "UPDATE locations SET ";
+    $sql .= "pallet= " . no_pallet($location['pallet']) . " ";
+    $sql .= "WHERE location_id='" . db_escape($db, $location['id']) . "' ";
+    $sql .= "LIMIT 1";
+    // var_dump($sql);
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function insert_location($location){
+    global $db;
+
+    // $password_sent = !is_blank($location['password']);
+
+    $errors = validate_location($location);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    // $hashed_password = password_hash($location['password'], PASSWORD_BCRYPT);
+
+    $sql = "insert into locations (location_name, pallet) ";
+    $sql .= "values ";
+    $sql .= "('" . $location['name'] . "', " . $location['pallet'] . ") ";
+    // var_dump($sql);
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function shift_subject_positions($start_pos, $end_pos, $current_id=0) {
+    global $db;
+
+    if($start_pos == $end_pos) {
+      return;
+    }
+
+    $sql = "update subjects ";
+    if($start_pos == 0){ // adding items
+      $sql .= "set position = position + 1 ";
+      $sql .= "where position >= '" . db_escape($db, $end_pos) . "' ";
+    }elseif($end_pos == 0){ // deleting items
+        $sql .= "set position = position - 1 ";
+        $sql .= "where position > '" . db_escape($db, $start_pos) . "' ";
+    }elseif($start_pos < $end_pos) { // moving down list
+      $sql .= "set position = position - 1 ";
+      $sql .= "where position > '" . db_escape($db, $start_pos) . "' ";
+      $sql .= "and position <= '" . db_escape($db, $end_pos) . "' ";
+    }elseif($start_pos > $end_pos) { // moving up list
+      $sql .= "set position = position + 1 ";
+      $sql .= "where position >= '" . db_escape($db, $end_pos) . "' ";
+      $sql .= "and position < '" . db_escape($db, $start_pos) . "' ";
+    }
+    // avoid changing the current selection
+    $sql .= "and id != '" . db_escape($db, $current_id) . "' ";
+
+    $result = mysqli_query($db, $sql);
+
+    if($result) {
+      return true;
+    }else{
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function shift_page_positions($start_pos, $end_pos, $subject_id, $current_id=0) {
+    global $db;
+
+    if($start_pos == $end_pos) { return; }
+
+    $sql = "UPDATE pages ";
+    if($start_pos == 0) {
+      // new item, +1 to items greater than $end_pos
+      $sql .= "SET position = position + 1 ";
+      $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+    } elseif($end_pos == 0) {
+      // delete item, -1 from items greater than $start_pos
+      $sql .= "SET position = position - 1 ";
+      $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+    } elseif($start_pos < $end_pos) {
+      // move later, -1 from items between (including $end_pos)
+      $sql .= "SET position = position - 1 ";
+      $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+      $sql .= "AND position <= '" . db_escape($db, $end_pos) . "' ";
+    } elseif($start_pos > $end_pos) {
+      // move earlier, +1 to items between (including $end_pos)
+      $sql .= "SET position = position + 1 ";
+      $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+      $sql .= "AND position < '" . db_escape($db, $start_pos) . "' ";
+    }
+    // Exclude the current_id in the SQL WHERE clause
+    $sql .= "AND id != '" . db_escape($db, $current_id) . "' ";
+    $sql .= "AND subject_id = '" . db_escape($db, $subject_id) . "'";
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function audit_owners(){
+    global $db;
+
+    $sql = "select * from people ";
+    $sql .= "where admin_id in ";
+    $sql .= "(select owner_id from content ";
+    $sql .= "where date_added <= now()-interval 1 month) ";
+    $sql .= "and admin_id != 0";
+    // $sql .= "group by owner_id ";
+    $result = mysqli_query($db, $sql);
+    // $row = mysqli_fetch_row($result);
+    return $result;
+  }
+
+  function audit_items($owner_id){
+    global $db;
+
+    $sql = "select * from content where owner_id = " . $owner_id . " ";
+    $sql .= "and date_added <= now()-interval 1 month ";
+    $result = mysqli_query($db, $sql);
+    return $result;
+  }
+
+
+?>
