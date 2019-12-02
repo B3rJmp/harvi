@@ -52,7 +52,8 @@ if(is_post_request()) {
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/staff/my_items.php'); ?>">&laquo; Back to List</a>
+  <!-- <a class="back-link" href="<?php //echo url_for('/staff/my_items.php'); ?>">&laquo; Back to List</a> -->
+  <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
 
   <div class="subject edit">
     <h1>Edit Item</h1>

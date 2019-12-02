@@ -28,7 +28,9 @@
                 $message .= "</ul><br>";
                 $message .= "In any case, come and find me if you have any questions, thanks!!";
                 if(isset($to) && $to != NULL && $to != ''){
-                    $mail = mail($to, $subject, $message, $headers);
+                    if(!empty($items)){
+                        $mail = mail($to, $subject, $message, $headers);
+                    }
                 }
             }
         }else{

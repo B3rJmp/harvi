@@ -336,12 +336,15 @@
     if(is_blank($item['quantity'])) {
       $errors[] = "Item must have a quantity";
     }
+    if($item['quantity'] <= 0) {
+      $errors[] = "Item quantity must be greater than 1";
+    }
 
     // date added
     if(is_blank($item['date_added'])) {
       $errors[] = "Please specify the date this item was added";
     }
-    if($item['date_added'] > date('Y-l-M')){
+    if(strtotime($item['date_added']) > time()){
       $errors[] = "Date can not be in the future";
     }
 

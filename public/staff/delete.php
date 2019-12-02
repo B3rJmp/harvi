@@ -3,7 +3,7 @@
 require_once('../../private/initialize.php');
 
 require_login();
-require_manager();
+// require_manager();
 
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/index.php'));
@@ -18,6 +18,7 @@ if(is_post_request()) {
 
 } else {
   $item = find_item_by_id($id);
+  is_user($item);
 }
 
 ?>

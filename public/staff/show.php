@@ -59,6 +59,9 @@ $table = "content";
       </dl>
     </div>
     <?php page_links($table); ?>
+    <?php if(is_user($item) || is_manager()) { ?>
+      <a href="<?= url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit Item</a>
+    <?php } ?>
 
   </div>
 
