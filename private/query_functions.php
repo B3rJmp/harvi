@@ -455,7 +455,7 @@
     $offset = $limit * ($page - 1);
 
     $sql = "select * from locations ";
-    $sql .= "order by location_name ";
+    // $sql .= "order by location_name ";
     $sql .= "limit " . $limit . " offset " . $offset;
     // $sql .= "join content on locations.location_id = content.location ";
     // $sql .= "group by location";
