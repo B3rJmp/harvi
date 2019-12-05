@@ -73,7 +73,7 @@ function display_session_message() {
   }
 }
 
-function pagination($limit = 10, $table) {
+function pagination($limit = 10) {
   global $db;
   $url = $_SERVER['SCRIPT_NAME'];
   // echo $url;
@@ -84,7 +84,48 @@ function pagination($limit = 10, $table) {
     $current_page = 1;
   }
 
-  $sql = "select count(*) from " . $table;
+  $sql = "select count(*) from content ";
+  $result = mysqli_query($db, $sql);
+  $row = mysqli_fetch_row($result);
+  mysqli_free_result($result);
+  $page_count = $row[0];
+  $pages = ceil($page_count / $limit);
+  $page_link = "";
+  for($i = 1; $i<=$pages; $i++) {
+    if($i == $current_page) {
+      $page_link .= "<span class=\"selected\">{$i}</span>";
+    }else{
+      $page_link .= "<a href=\"{$url}?page={$i}\">{$i}</a>";
+    }
+  }
+  $back_link = "";
+  $next_link = "";
+  if(($current_page - 1) > 0){
+    $back_link .= "<a href=\"{$url}?page=" . ($current_page - 1) . "\">&laquo; Back</a>";
+  }
+  if(($current_page + 1) <= $pages) {
+    $next_link .= "<a href=\"{$url}?page=" . ($current_page + 1) . "\">Next &raquo;</a>";
+  }
+
+  if($page_count > $limit) {
+    echo $back_link;
+    echo $page_link;
+    echo $next_link;
+  }
+}
+
+function admin_pagination($limit = 10) {
+  global $db;
+  $url = $_SERVER['SCRIPT_NAME'];
+  // echo $url;
+
+  if(isset($_GET['page'])){
+    $current_page = $_GET['page'];
+  }else{
+    $current_page = 1;
+  }
+
+  $sql = "select count(*) from people where admin_id > 1 ";
   $result = mysqli_query($db, $sql);
   $row = mysqli_fetch_row($result);
   mysqli_free_result($result);

@@ -4,7 +4,6 @@
   require_login();
   get_viewer_type();
   $limit = 15;
-  $table = "content";
   $items = list_all_items($limit);
   $page_title = 'Staff Menu';
   include(SHARED_PATH . '/staff_header.php');
@@ -45,7 +44,7 @@
             <td><?php if(isset($item['work_order'])){echo $item['work_order'];}else{echo "-";} ?></td>
             <td style="text-align: left;"><?php echo $item['description']; ?></td>
             <td><?php echo h($item['quantity']); ?></td>
-            <td><?php echo h($item['first_name']) . " " . h($item['last_name']); ?></td>
+            <td><?php if(isset($item['owner_id'])) {echo h($item['first_name']) . " " . h($item['last_name']);}else{echo "(undefined)";} ?></td>
             <td><?php echo h($item['date_added']); ?></td>
             <td><a class="action" href="<?php echo url_for('/staff/show.php?id=' . h(u($item['id']))); ?>">View</a></td>
             <?php if(is_manager()) { ?>
@@ -55,7 +54,7 @@
           </tr>
         <?php } ?>
       </table>
-      <?php pagination($limit, $table); ?>
+      <?php pagination($limit); ?>
     </div>
 
     <?php

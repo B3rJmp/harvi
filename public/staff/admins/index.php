@@ -6,7 +6,6 @@
   require_manager();
 
   $limit = 15;
-  $table = "people";
   $admin_set = list_all_admins($limit);
 
 ?>
@@ -53,7 +52,7 @@
       	  </tr>
         <?php } ?>
     	</table>
-      <?php pagination($limit, $table); ?>
+      <?php admin_pagination($limit); ?>
   	</div>
 
     <?php

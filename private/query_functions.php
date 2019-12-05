@@ -7,7 +7,7 @@
     $sql = "SELECT * FROM people ";
     $sql .= "JOIN ";
     $sql .= "view_type on people.type = view_type.type_id ";
-    $sql .= "where admin_id >= 1 ";
+    $sql .= "where admin_id > 1 ";
     $sql .= "ORDER BY viewer_type asc ";
     $sql .= "limit " . $limit . " offset " . $offset ;
     $result = mysqli_query($db, $sql);
@@ -672,8 +672,8 @@
     $sql = "select * from people ";
     $sql .= "where admin_id in ";
     $sql .= "(select owner_id from content ";
-    $sql .= "where date_added <= now()-interval 3 month) ";
-    $sql .= "and admin_id != 0";
+    $sql .= "where date_added <= now()-interval 3 day) ";
+    $sql .= "and admin_id != 1 ";
     // $sql .= "group by owner_id ";
     $result = mysqli_query($db, $sql);
     // $row = mysqli_fetch_row($result);
@@ -683,8 +683,10 @@
   function audit_items($owner_id){
     global $db;
 
-    $sql = "select * from content where owner_id = " . $owner_id . " ";
-    $sql .= "and date_added <= now()-interval 3 month ";
+    $sql = "select * from content ";
+    $sql .= "join locations on content.location = locations.location_id ";
+    $sql .= "where owner_id = " . $owner_id . " ";
+    $sql .= "and date_added <= now()-interval 3 day ";
     $result = mysqli_query($db, $sql);
     return $result;
   }
