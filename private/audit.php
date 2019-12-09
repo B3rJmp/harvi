@@ -1,5 +1,5 @@
 <?php 
-    require_once('../../private/initialize.php');
+    // require_once('../../private/initialize.php');
     
     // The idea of this script is to automate the warehouse audit
     // script will gather information on all items in the warehouse that have been there for longer than a specified time
@@ -21,7 +21,7 @@
     // get current date and first Monday of current month
     $today = date('d-M-Y');
     $first_monday = date('d-M-Y', strtotime("first monday of this month"));
-    // // $first_monday = $today;
+    // $first_monday = $today;
     // get audit status
     $status = $_SESSION['audit'] ?? 0;
     if($today==$first_monday){
@@ -44,8 +44,8 @@
                     }
                     $to .= "thane.stevens2@thermofisher.com";
                     $subject = "Warehouse Audit";
-                    $headers = "From: manager.harvi@gmail.com".PHP_EOL;
-                    // // $headers .= "CC: thane.stevens2@thermofisher.com".PHP_EOL;
+                    $headers = "From: manager.harvi@gmail.com\r\n";
+                    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
                     $message = "Hey Managers, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
                     $message .= "<ul>";
                     foreach($items as $item){
@@ -57,16 +57,16 @@
                     $message .= "If you could help us track down the owners, that would be a great help. Thanks!!<br>";
                     if(isset($to) && $to != NULL && $to != ''){
                         if(!empty($items)){
-                            // $mail = mail($to, $subject, $message, $headers);
-                            echo $message;
+                            $mail = mail($to, $subject, $message, $headers);
+                            // echo $message;
                         }
                     }
                 }else{ // if item has a definitive owner, send email to that specific owner
                     $to = $owner['email'];
-                    // $to = 'thanerstevens@gmail.com';
                     $subject = "Warehouse Audit";
-                    $headers = "From: manager.harvi@gmail.com".PHP_EOL;
-                    $headers .= "CC: thane.stevens2@thermofisher.com".PHP_EOL;
+                    $headers = "From: manager.harvi@gmail.com\r\n";
+                    $headers .= "CC: thane.stevens2@thermofisher.com\r\n";
+                    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
                     $message = "Hey " . ucfirst($owner['first_name']) . ", we found some items in the warehouse that have been there a while, we were wondering what you want to do with them: <br>";
                     $message .= "<ul>";
                     foreach($items as $item){
@@ -78,8 +78,8 @@
                     $message .= "In any case, come and find me if you have any questions, thanks!!<br>";
                     if(isset($to) && $to != NULL && $to != ''){
                         if(!empty($items)){
-                            // $mail = mail($to, $subject, $message, $headers);
-                            echo $message;
+                            $mail = mail($to, $subject, $message, $headers);
+                            // echo $message;
                         }
                     }
                 }
@@ -89,13 +89,13 @@
         }else{
             // // $_SESSION['message'] = "Last audit was done " . $first_monday . ".";
             // // unset($_SESSION['message']);
-            // // echo "Audit has been performed";
+            echo "Audit has been performed";
         }
     }else{
         // once first monday is done, reset audit variable
         $_SESSION['audit'] = 0;
-        // // echo "Today is " . $today . ".<br>";
-        // // echo "Last audit was performed on " . $first_monday . ".";
+        echo "Today is " . $today . ".<br>";
+        echo "Last audit was performed on " . $first_monday . ".";
     }
     
 
