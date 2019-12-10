@@ -94,8 +94,8 @@
     }else{
         // once first monday is done, reset audit variable
         $_SESSION['audit'] = 0;
-        echo "Today is " . $today . ".<br>";
-        echo "Last audit was performed on " . $first_monday . ".";
+        // echo "Today is " . $today . ".<br>";
+        // echo "Last audit was performed on " . $first_monday . ".";
     }
     
 
