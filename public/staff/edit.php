@@ -98,7 +98,9 @@ if(is_post_request()) {
       <dl>
         <dt>Date Added</dt>
         <dd>
+        <?php if(is_manager()) { ?>
           <input type="date" name="date_added" value="<?= $item['date_added'] ?? date("Y-m-d"); ?>" />
+        <?php }else{ echo $item['date_added'];} ?>
         </dd>
       </dl>
       <div id="operations">

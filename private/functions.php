@@ -209,7 +209,7 @@ function location_img($id) {
   $name = 'aa1';
 
   if($id >= 1 && $id <= 2) {
-    echo url_for('/images/layout-aa.png');
+    echo url_for('/images/layout-a.png');
   }elseif($id >= 3 && $id <= 4) {
     echo url_for('/images/layout-b.png');
   }elseif($id >= 5 && $id <= 8) {
