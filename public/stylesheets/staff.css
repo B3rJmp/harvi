@@ -147,3 +147,12 @@ dd {
   margin: 1em 30px;
   width: 890px;
 }
+
+.itemShow {
+  display: flex;
+  justify-content: space-around;
+}
+
+.location h2 {
+  margin-top: 0px;
+}

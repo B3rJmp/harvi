@@ -381,7 +381,7 @@
     $sql .= db_escape($db, no_owner($item['owner_id'])) . ", ";
     $sql .= "'" . db_escape($db, $item['date_added']) . "'";
     $sql .= ")";
-    echo $sql;
+    // echo $sql;
     $result = mysqli_query($db, $sql);
     // For INSERT statements, $result is true/false
     if($result) {
@@ -573,8 +573,9 @@
 
     $sql = "insert into locations (location_name, pallet) ";
     $sql .= "values ";
-    $sql .= "('" . $location['name'] . "', " . $location['pallet'] . ") ";
-    // var_dump($sql);
+    $sql .= "('" . strtolower($location['name']) . "', " . $location['pallet'] . ") ";
+    // echo $sql;
+    var_dump($sql);
 
     $result = mysqli_query($db, $sql);
     // For UPDATE statements, $result is true/false

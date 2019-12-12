@@ -5,7 +5,7 @@ function url_for($script_path) {
   if($script_path[0] != '/') {
     $script_path = "/" . $script_path;
   }
-  return WWW_ROOT . $script_path;
+  return $script_path;
 }
 
 function u($string="") {
@@ -73,7 +73,7 @@ function display_session_message() {
   }
 }
 
-function pagination($limit = 10) {
+function pagination($limit = 10, $table = 'content') {
   global $db;
   $url = $_SERVER['SCRIPT_NAME'];
   // echo $url;
@@ -84,7 +84,7 @@ function pagination($limit = 10) {
     $current_page = 1;
   }
 
-  $sql = "select count(*) from content ";
+  $sql = "select count(*) from " . $table . " ";
   $result = mysqli_query($db, $sql);
   $row = mysqli_fetch_row($result);
   mysqli_free_result($result);
@@ -192,6 +192,7 @@ function page_links($table) {
   $row = mysqli_fetch_row($result);
   mysqli_free_result($result);
   $page_count = $row[0];
+  // echo $page_count;
 
   $next_link = "<a href=\"" . $_SERVER['SCRIPT_NAME'] . "?id=" . $next . "\">Next &raquo;</a>";
   $back_link = "<a href=\"" . $_SERVER['SCRIPT_NAME'] . "?id=" . $back . "\">&laquo; Previous</a>";
@@ -201,6 +202,76 @@ function page_links($table) {
   }
   if(($id + 1) <= $page_count){
     echo $next_link;
+  }
+}
+
+function location_img($id) {
+  $name = 'aa1';
+
+  if($id >= 1 && $id <= 2) {
+    echo url_for('/images/layout-aa.png');
+  }elseif($id >= 3 && $id <= 4) {
+    echo url_for('/images/layout-b.png');
+  }elseif($id >= 5 && $id <= 8) {
+    echo url_for('/images/layout-c.png');
+  }elseif($id >= 9 && $id <= 11) {
+    echo url_for('/images/layout-d.png');
+  }elseif($id >= 12 && $id <= 14) {
+    echo url_for('/images/layout-e.png');
+  }elseif($id >= 15 && $id <= 17) {
+    echo url_for('/images/layout-f.png');
+  }elseif($id >= 18 && $id <= 19) {
+    echo url_for('/images/layout-g.png');
+  }elseif($id >= 20 && $id <= 21) {
+    echo url_for('/images/layout-h.png');
+  }elseif($id >= 22 && $id <= 23) {
+    echo url_for('/images/layout-i.png');
+  }elseif($id >= 24 && $id <= 26) {
+    echo url_for('/images/layout-j.png');
+  }elseif($id >= 27 && $id <= 29) {
+    echo url_for('/images/layout-k.png');
+  }elseif($id >= 30 && $id <= 32) {
+    echo url_for('/images/layout-l.png');
+  }elseif($id >= 33 && $id <= 35) {
+    echo url_for('/images/layout-m.png');
+  }elseif($id >= 36 && $id <= 38) {
+    echo url_for('/images/layout-n.png');
+  }elseif($id >= 39 && $id <= 42) {
+    echo url_for('/images/layout-o.png');
+  }elseif($id >= 43 && $id <= 46) {
+    echo url_for('/images/layout-p.png');
+  }elseif($id >= 47 && $id <= 50) {
+    echo url_for('/images/layout-q.png');
+  }elseif($id >= 51 && $id <= 54) {
+    echo url_for('/images/layout-r.png');
+  }elseif($id >= 55 && $id <= 56) {
+    echo url_for('/images/layout-s.png');
+  }elseif($id >= 57 && $id <= 58) {
+    echo url_for('/images/layout-t.png');
+  }elseif($id >= 59 && $id <= 60) {
+    echo url_for('/images/layout-u.png');
+  }elseif($id >= 61 && $id <= 62) {
+    echo url_for('/images/layout-v.png');
+  }elseif($id >= 63 && $id <= 65) {
+    echo url_for('/images/layout-w.png');
+  }elseif($id >= 66 && $id <= 68) {
+    echo url_for('/images/layout-x.png');
+  }elseif($id >= 69 && $id <= 72) {
+    echo url_for('/images/layout-y.png');
+  }elseif($id >= 73 && $id <= 76) {
+    echo url_for('/images/layout-z.png');
+  }elseif($id >= 77 && $id <= 80) {
+    echo url_for('/images/layout-aa.png');
+  }elseif($id >= 81 && $id <= 84) {
+    echo url_for('/images/layout-ab.png');
+  }elseif($id == 85) {
+    echo url_for('/images/layout-nfloor.png');
+  }elseif($id == 86) {
+    echo url_for('/images/layout-cfloor.png');
+  }elseif($id == 87) {
+    echo url_for('/images/layout-sfloor.png');
+  }else{
+    echo "";
   }
 }
 

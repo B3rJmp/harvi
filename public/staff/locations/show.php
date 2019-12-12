@@ -25,10 +25,18 @@ $items = find_items_by_location($id);
     <h1>Location: <?php echo h(strtoupper($location['location_name'])); ?></h1>
 
     <div class="attributes">
-      <dl>
-        <dt>Pallet Present</dt>
-        <dd><?php echo $location['pallet'] ? "Yes" : "No"; ?></dd>
-      </dl>
+      <div class="itemShow">
+        <div>
+          <dl>
+            <dt>Pallet Present</dt>
+            <dd><?php echo $location['pallet'] ? "Yes" : "No"; ?></dd>
+          </dl>
+        </div>
+        <div class="location">
+          <!-- <h2>Location:</h2> -->
+          <img src="<?= location_img($location['location_id']); ?>" alt="Location">
+        </div>
+      </div>
       <div class="admin listing">
         <h2>Items in this location:</h2>
 

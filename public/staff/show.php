@@ -25,38 +25,44 @@ $table = "content";
     <!-- <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a> -->
   <?php //} ?>
 
-  <div class="item show">
+  <div class="bigdiv">
 
     <h1>Item: <?php if(isset($item['work_order'])) {echo h($item['work_order']) . ", " . $item['description'];}else{echo $item['description'];} ?></h1>
 
-    <div class="attributes">
-      <dl>
-        <dt>Location</dt>
-        <dd><?php echo h(strtoupper($item['location_name'])); ?></dd>
-      </dl>
-      <dl>
-        <dt>Quantity</dt>
-        <dd><?php echo h($item['quantity']); ?></dd>
-      </dl>
-      <dl>
-        <dt>Owner</dt>
-        <dd>
-          <?php if(is_manager()) { ?>
-            <a href="<?= url_for('/staff/admins/show.php?id=' . h(u($item['admin_id']))); ?>"><?= h($item['first_name']) . " " . h($item['last_name']); ?></a>
-          <?php }else{ ?>
-            <?= h($item['first_name']) . " " . h($item['last_name']); ?>
-          <?php } ?>
-        </dd>
-      </dl>
-      <dl>
-        <dt>Owner Contact</dt>
-        <dd><?php echo h($item['email']); ?></dd>
-      </dl>
-      <dl>
-        <dt>Date Added</dt>
-        <dd><?php if($item['date_added'] > date('today')) {echo "true";}else{echo "false";} ?></dd>
-        <!-- <dd><?php //echo h($item['date_added']); ?></dd> -->
-      </dl>
+    <div class="itemShow">
+      <div class="attributes">
+        <dl>
+          <dt>Location</dt>
+          <dd><?php echo h(strtoupper($item['location_name'])); ?></dd>
+        </dl>
+        <dl>
+          <dt>Quantity</dt>
+          <dd><?php echo h($item['quantity']); ?></dd>
+        </dl>
+        <dl>
+          <dt>Owner</dt>
+          <dd>
+            <?php if(is_manager()) { ?>
+              <a href="<?= url_for('/staff/admins/show.php?id=' . h(u($item['admin_id']))); ?>"><?= h($item['first_name']) . " " . h($item['last_name']); ?></a>
+            <?php }else{ ?>
+              <?= h($item['first_name']) . " " . h($item['last_name']); ?>
+            <?php } ?>
+          </dd>
+        </dl>
+        <dl>
+          <dt>Owner Contact</dt>
+          <dd><?php echo h($item['email']); ?></dd>
+        </dl>
+        <dl>
+          <dt>Date Added</dt>
+          <dd><?php if($item['date_added'] > date('today')) {echo "true";}else{echo "false";} ?></dd>
+          <!-- <dd><?php //echo h($item['date_added']); ?></dd> -->
+        </dl>
+      </div>
+      <div class="location">
+        <!-- <h2>Location:</h2> -->
+        <img src="<?= location_img($item['location']); ?>" alt="Location">
+      </div>
     </div>
     <?php page_links($table); ?>
     <?php if(is_user($item) || is_manager()) { ?>

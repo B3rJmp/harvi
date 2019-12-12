@@ -9,7 +9,7 @@
   $region = $_GET['region'] ?? 'A';
 
   // $locations = list_all_locations($limit);
-  $locations = locations_by_alphabet($region);
+  $locations = list_all_locations($limit);
 
 ?>
 
@@ -34,24 +34,28 @@
           <th>&nbsp;</th>
           <?php if(is_manager()) { ?>
             <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            <?php if(is_admin()) { ?>
+              <th>&nbsp;</th>
+            <?php } ?>
           <?php } ?>
         </tr>
 
         <?php while($location = mysqli_fetch_assoc($locations)) { ?>
           <tr>
             <!-- <td><?php //echo h($admin['admin_id']); ?></td> -->
-            <td><?php echo h(ucfirst($location['location_name'])); ?></td>
+            <td><?php echo h(strtoupper($location['location_name'])); ?></td>
             <td><?php echo $location['pallet'] ? "Yes" : "No"; ?></td>
             <td><a class="action" href="<?php echo url_for('/staff/locations/show.php?id=' . h(u($location['location_id']))); ?>">View</a></td>
             <?php if(is_manager()) { ?>
               <td><a class="action" href="<?php echo url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit</a></td>
-              <td><a class="action" href="<?php echo url_for('/staff/locations/delete.php?id=' . h(u($location['location_id']))); ?>">Delete</a></td>
+              <?php if(is_admin()){ ?>
+                <td><a class="action" href="<?php echo url_for('/staff/locations/delete.php?id=' . h(u($location['location_id']))); ?>">Delete</a></td>
+              <?php } ?>
             <?php } ?>
           </tr>
         <?php } ?>
       </table>
-      <?php location_pagination(); ?>
+      <?php pagination($limit, $table); ?>
     </div>
 
     <?php

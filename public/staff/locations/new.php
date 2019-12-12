@@ -3,7 +3,7 @@
 require_once('../../../private/initialize.php');
 
 require_login();
-require_manager();
+require_admin();
 
 // if(!isset($_GET['id'])) {
 //   redirect_to(url_for('/staff/admins/index.php'));
@@ -23,9 +23,9 @@ if(is_post_request()) {
   }
   $location['name'] = $_POST['name'];
 
-  $result = update_location($location);
+  $result = insert_location($location);
   if($result === true) {
-    $_SESSION['message'] = 'The location was successfully edited.';
+    $_SESSION['message'] = 'The location was successfully created.';
     redirect_to(url_for('/staff/locations/show.php?id=' . $id));
   } else {
     $errors = $result;
