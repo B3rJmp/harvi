@@ -97,7 +97,7 @@ if(is_post_request()) {
       <dl>
         <dt>Date Added</dt>
         <dd>
-          <input type="date" name="visible" value="<?= date("Y-m-d"); ?>" />
+          <input type="date" name="date_added" value="<?= date("Y-m-d"); ?>" />
         </dd>
       </dl>
       <div id="operations">

@@ -6,7 +6,6 @@
   // require_manager();
   $limit = 15;
   $table = "locations";
-  $region = $_GET['region'] ?? 'A';
 
   // $locations = list_all_locations($limit);
   $locations = list_all_locations($limit);
@@ -19,7 +18,6 @@
 <div id="content">
   <div class="admin listing">
     <h1>Locations</h1>
-    <h2>Region: <?= strtoupper($region); ?></h2>
     <?php if(is_admin()){ ?>
       <div class="actions">
         <a class="action" href="<?php echo url_for('/staff/locations/new.php'); ?>">Add Location</a>

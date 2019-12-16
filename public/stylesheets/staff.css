@@ -153,6 +153,10 @@ dd {
   justify-content: space-around;
 }
 
+.attributes {
+  margin-bottom: 50px;
+}
+
 .location h2 {
   margin-top: 0px;
 }

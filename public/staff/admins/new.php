@@ -18,8 +18,8 @@ if(is_post_request()) {
   $admin['email'] = $_POST['email'] ?? '';
   $admin['permission'] = $_POST['permission']==NULL || $_POST['permission']=="" ? 3 : $_POST['permission'];
   $admin['username'] = $_POST['username'] ?? '';
-  $admin['password'] = $_POST['password'] ?? '';
-  $admin['password_confirm'] = $_POST['password_confirm'] ?? '';
+  $admin['password'] = $_POST['password'] ?? 'P@55word';
+  $admin['password_confirm'] = $_POST['password_confirm'] ?? 'P@55word';
 
   $result = insert_admin($admin);
   if($result === true) {
@@ -36,8 +36,8 @@ if(is_post_request()) {
   $admin['last_name'] = '';
   $admin['email'] = '';
   $admin['username'] = '';
-  $admin['password'] = '';
-  $admin['password_confirm'] = '';
+  // $admin['password'] = '';
+  // $admin['password_confirm'] = '';
 }
 
 ?>
@@ -84,12 +84,12 @@ if(is_post_request()) {
       </dl>
       <dl>
         <dt>Password</dt>
-        <dd><input type="password" name="password" /></dd>
+        <dd>(Use Default Password)</dd>
       </dl>
-      <dl>
+      <!-- <dl>
         <dt>Confirm Password</dt>
         <dd><input type="password" name="password_confirm"  /></dd>
-      </dl>
+      </dl> -->
       <div id="operations">
         <input type="submit" value="Create Admin" />
       </div>

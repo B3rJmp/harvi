@@ -86,14 +86,20 @@ mysqli_free_result($admin_set);
         <dt>Email</dt>
         <dd><input type="text" name="email" value="<?php echo h($admin['email']); ?>" /></dd>
       </dl>
-      <!-- <dl>
-        <dt>Password</dt>
-        <dd><input type="text" name="password" value="<?php //echo h($admin['password']); ?>" /></dd>
-      </dl>
-      <dl>
-        <dt>Confirm Password</dt>
-        <dd><input type="text" name="password_confirm" value="<?php //echo h($admin['password']); ?>" /></dd>
-      </dl> -->
+      <?php if(isset($_SESSION['super_admin'])) { ?>
+        <dl>
+          <dt>Password</dt>
+          <dd><input type="text" name="password" value="<?php //echo h($admin['password']); ?>" /></dd>
+        </dl>
+        <dl>
+          <dt>Confirm Password</dt>
+          <dd><input type="text" name="password_confirm" value="<?php //echo h($admin['password']); ?>" /></dd>
+        </dl>
+      <?php }else{ ?>
+        <?php if(is_admin()){ ?>
+          <a href="<?php echo url_for('/staff/admins/super.php?id=' . h(u($id)));  ?>">Unlock Super Admin</a>
+        <?php } ?>
+      <?php } ?>
       <div id="operations">
         <input type="submit" value="Edit Admin" />
       </div>

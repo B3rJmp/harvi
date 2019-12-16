@@ -107,8 +107,8 @@
 
     if(is_blank($admin['username'])) {
       $errors[] = "Username cannot be blank.";
-    } elseif (!has_length($admin['username'], array('min' => 8, 'max' => 255))) {
-      $errors[] = "Username must be between 8 and 255 characters.";
+    } elseif (!has_length($admin['username'], array('min' => 5, 'max' => 20))) {
+      $errors[] = "Username must be between 5 and 20 characters.";
     } elseif (!has_unique_username($admin['username'], $admin['id'] ?? 0)) {
       $errors[] = "Username has already been taken.";
     }
@@ -146,7 +146,7 @@
       return $errors;
     }
 
-    $hashed_password = password_hash($admin['password'], PASSWORD_BCRYPT);
+    $hashed_password = password_hash('P@55word', PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO people ";
     $sql .= "(first_name, last_name, type, email, username, hashed_password) ";
@@ -172,6 +172,7 @@
 
   function update_admin($admin){
     global $db;
+    unset($_SESSION['super_admin']);
 
     $password_sent = !is_blank($admin['password']);
 
@@ -235,7 +236,7 @@
     $sql .= "people on content.owner_id = people.admin_id ";
     $sql .= "JOIN ";
     $sql .= "locations on content.location = locations.location_id ";
-    $sql .= "order by location asc, work_order desc, id asc ";
+    $sql .= "order by location asc, work_order desc, owner_id desc ";
     $sql .= "limit " . $limit . " offset " . $offset;
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -485,7 +486,7 @@
     // $offset = $limit * ($page - 1);
 
     $sql = "select * from locations ";
-    $sql .= "order by location_name ";
+    // $sql .= "order by location_name ";
     // $sql .= "limit " . $limit . " offset " . $offset;
     // $sql .= "join content on locations.location_id = content.location ";
     // $sql .= "group by location";
