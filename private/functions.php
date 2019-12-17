@@ -168,7 +168,7 @@ function location_pagination() {
 
   $a = 'a';
   $page_link = "";
-  for($i = 1; $i<=26; $i++) {
+  for($i = 1; $i<=28; $i++) {
     if($i == $region) {
       $page_link .= "<span class=\"selected\">" . h(strtoupper($a)) . "</span>";
     }else{
@@ -176,6 +176,9 @@ function location_pagination() {
     }
     $a++;
   }
+  $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=85\">NFLOOR</a>";
+  $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=86\">CFLOOR</a>";
+  $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=87\">SFLOOR</a>";
 
   echo $page_link;
 }

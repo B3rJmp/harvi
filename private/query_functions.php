@@ -243,6 +243,25 @@
     return $result;
   }
 
+  function search_items($input){
+    global $db;
+    // $page = $_GET['page'] ?? 1;
+    // $offset = $limit * ($page - 1);
+
+    $sql = "select * from content ";
+    $sql .= "JOIN ";
+    $sql .= "people on content.owner_id = people.admin_id ";
+    $sql .= "JOIN ";
+    $sql .= "locations on content.location = locations.location_id ";
+    $sql .= "where description like '%" . $input . "%' ";
+    $sql .= "order by location asc, work_order desc, owner_id desc ";
+    // $sql .= "limit " . $limit . " offset " . $offset;
+    // echo $sql;
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
   function find_all_items(){
     global $db;
 
@@ -470,7 +489,7 @@
     global $db;
 
     $sql = "select * from locations ";
-    $sql .= "where location_name like '" . strtolower($region) . "%' ";
+    $sql .= "where location_name like '" . strtolower($region) . "_' ";
     $sql .= "order by location_name ";
     // $sql .= "join content on locations.location_id = content.location ";
     // $sql .= "group by location";

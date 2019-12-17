@@ -160,3 +160,8 @@ dd {
 .location h2 {
   margin-top: 0px;
 }
+
+.links {
+  display: flex;
+  justify-content: space-between;
+}

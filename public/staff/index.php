@@ -14,10 +14,18 @@
   <div class="admin listing">
     <h1>Manage Warehouse</h1>
 
-    <div class="actions">
-      <a class="action" href="<?php echo url_for('/staff/new.php'); ?>">Add Item</a>
-      <a class="action" href="<?php echo url_for('/staff/my_items.php'); ?>">View My Items</a>
-      <a class="action" href="<?php echo url_for('/staff/locations/index.php'); ?>">View All Locations</a>
+    <div class="links">
+      <div class="actions">
+        <a class="action" href="<?php echo url_for('/staff/new.php'); ?>">Add Item</a>
+        <a class="action" href="<?php echo url_for('/staff/my_items.php'); ?>">View My Items</a>
+        <a class="action" href="<?php echo url_for('/staff/locations/index.php'); ?>">View All Locations</a>
+      </div>
+      <div class="search">
+        <form action="<?php echo url_for('/staff/search.php'); ?>" method="post">
+          <input type="search" name="search" id="search">
+          <input type="submit" value="Search">  
+        </form>
+      </div>
     </div>
     <div class="table">
       <table class="list">

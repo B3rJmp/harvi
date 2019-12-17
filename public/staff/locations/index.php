@@ -3,12 +3,8 @@
 <?php
 
   require_login();
-  // require_manager();
-  $limit = 15;
-  $table = "locations";
-
-  // $locations = list_all_locations($limit);
-  $locations = list_all_locations($limit);
+  $region = $_GET['region'] ?? 'a';
+  $locations = locations_by_alphabet($region);
 
 ?>
 
@@ -26,7 +22,6 @@
     <div class="table">
       <table class="list">
         <tr>
-          <!-- <th>ID</th> -->
           <th>Location Name</th>
           <th>Pallet Present</th>
           <th>&nbsp;</th>
@@ -40,7 +35,6 @@
 
         <?php while($location = mysqli_fetch_assoc($locations)) { ?>
           <tr>
-            <!-- <td><?php //echo h($admin['admin_id']); ?></td> -->
             <td><?php echo h(strtoupper($location['location_name'])); ?></td>
             <td><?php echo $location['pallet'] ? "Yes" : "No"; ?></td>
             <td><a class="action" href="<?php echo url_for('/staff/locations/show.php?id=' . h(u($location['location_id']))); ?>">View</a></td>
@@ -53,7 +47,7 @@
           </tr>
         <?php } ?>
       </table>
-      <?php pagination($limit, $table); ?>
+      <?php location_pagination(); ?>
     </div>
 
     <?php
