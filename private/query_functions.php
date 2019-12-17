@@ -304,9 +304,9 @@
     // echo $sql;
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
-    $admin = mysqli_fetch_assoc($result); // find first
+    $item = mysqli_fetch_assoc($result); // find first
     mysqli_free_result($result);
-    return $admin; // returns an assoc. array
+    return $item; // returns an assoc. array
   }
 
   function find_items_by_location($location) {
@@ -595,7 +595,7 @@
     $sql .= "values ";
     $sql .= "('" . strtolower($location['name']) . "', " . $location['pallet'] . ") ";
     // echo $sql;
-    var_dump($sql);
+    // var_dump($sql);
 
     $result = mysqli_query($db, $sql);
     // For UPDATE statements, $result is true/false
@@ -712,5 +712,49 @@
     return $result;
   }
 
+  function count_audit(){
+    global $db;
+
+    $sql = "select count(*) from content ";
+    $sql .= "where owner_id != 1 and date_added <= now()-interval 3 month ";
+    $result = mysqli_query($db, $sql);
+    $row = mysqli_fetch_row($result);
+    $count = $row[0];
+    return $count;
+  }
+
+  function last_audit() {
+    global $db;
+
+    $sql = "select date from audit_log ";
+    $sql .= "order by id desc ";
+    $sql .= "limit 1";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $last_audit = mysqli_fetch_row($result); // find first
+    $date = $last_audit[0];
+    mysqli_free_result($result);
+    return $date;
+
+  }
+
+  function new_audit($date, $count){
+    global $db;
+
+    $sql = "insert into audit_log (date, items)";
+    $sql .= "values ";
+    $sql .= "('" . $date . "', " . $count . ")";
+
+    $result = mysqli_query($db, $sql);
+    // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
 
 ?>

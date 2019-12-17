@@ -27,9 +27,9 @@
   require_once('query_functions.php');
   require_once('validation_functions.php');
   require_once('auth_functions.php');
-  require_once('audit.php');
-
+  
   $db = db_connect();
   $errors = [];
+  require_once('audit.php');
 
 ?>

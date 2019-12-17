@@ -35,9 +35,12 @@ if(is_post_request()) {
 } else {
 
   $item = find_item_by_id($id);
-  is_user($item);
-  $locations = find_all_locations();
-  $people = find_all_admins();
+  if(is_user($item)) {
+    $locations = find_all_locations();
+    $people = find_all_admins();
+  }else{
+    redirect_to(url_for('/staff/error.php'));
+  }
 
 }
 

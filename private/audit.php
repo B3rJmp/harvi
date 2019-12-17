@@ -19,11 +19,16 @@
     }
 
     // get current date and first Monday of current month
-    $today = date('d-M-Y');
-    $first_monday = date('d-M-Y', strtotime("first monday of this month"));
+    $today = date('Y-m-d');
+    $first_monday = date('Y-m-d', strtotime("first monday of this month"));
+    $last_audit = last_audit();
     // $first_monday = $today;
     // get audit status
-    $status = $_SESSION['audit'] ?? 0;
+    if($today == $last_audit){
+        $status = 1;
+    }else{
+        $status = 0;
+    }
     if($today==$first_monday){
         // if audit has not been performed yet
         if($status == 0){
@@ -85,15 +90,17 @@
                 }
             }
             // audit is complete, only do once on the first monday of each month
-            $_SESSION['audit'] = 1;
+            
+            $count = count_audit();
+            new_audit($today, $count);
         }else{
             // // $_SESSION['message'] = "Last audit was done " . $first_monday . ".";
             // // unset($_SESSION['message']);
-            echo "Audit has been performed";
+            // echo "Audit has been performed";
         }
     }else{
         // once first monday is done, reset audit variable
-        $_SESSION['audit'] = 0;
+        // $_SESSION['audit'] = 0;
         // echo "Today is " . $today . ".<br>";
         // echo "Last audit was performed on " . $first_monday . ".";
     }

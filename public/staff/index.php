@@ -53,7 +53,7 @@
             <td style="text-align: left;"><?php echo $item['description']; ?></td>
             <td><?php echo h($item['quantity']); ?></td>
             <td><?php if(isset($item['owner_id'])) {echo h($item['first_name']) . " " . h($item['last_name']);}else{echo "(undefined)";} ?></td>
-            <td><?php echo h($item['date_added']); ?></td>
+            <td><?php echo h(date('d-M-Y', strtotime($item['date_added']))); ?></td>
             <td><a class="action" href="<?php echo url_for('/staff/show.php?id=' . h(u($item['id']))); ?>">View</a></td>
             <?php if(is_manager()) { ?>
               <td><a class="action" href="<?php echo url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit</a></td>

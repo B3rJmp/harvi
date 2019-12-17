@@ -93,9 +93,11 @@
 
   function is_user($item) {
     if($_SESSION['admin_id'] == $item['owner_id']) {
+      return true;
       // continue
     }else{
-      require_manager();
+      return false;
+      // require_manager();
       // die();
     }
   }

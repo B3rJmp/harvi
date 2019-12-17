@@ -55,7 +55,7 @@ $table = "content";
         </dl>
         <dl>
           <dt>Date Added</dt>
-          <dd><?php echo h($item['date_added']); ?></dd>
+          <dd><?php echo h(date('d-M-Y', strtotime($item['date_added']))); ?></dd>
         </dl>
       </div>
       <div class="location">
