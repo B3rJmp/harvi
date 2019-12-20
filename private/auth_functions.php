@@ -91,8 +91,8 @@
     }
   }
 
-  function is_user($item) {
-    if($_SESSION['admin_id'] == $item['owner_id']) {
+  function require_user($item) {
+    if($_SESSION['admin_id'] == $item['owner_id'] || is_manager()) {
       return true;
       // continue
     }else{

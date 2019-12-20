@@ -12,7 +12,11 @@
 
 <div id="content">
   <div class="admin listing">
-    <h1>Manage Warehouse</h1>
+    <?php if(is_manager()) { ?>
+      <h1>Manage Warehouse</h1>
+    <?php }else{ ?>
+      <h1>Warehouse</h1>
+    <?php } ?>
 
     <div class="links">
       <div class="actions">

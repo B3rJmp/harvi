@@ -34,8 +34,10 @@ if(is_post_request()) {
 
 } else {
 
+  
   $item = find_item_by_id($id);
-  if(is_user($item)) {
+  // is_user($item);
+  if(require_user($item)) {
     $locations = find_all_locations();
     $people = find_all_admins();
   }else{
