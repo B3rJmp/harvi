@@ -18,7 +18,9 @@ if(is_post_request()) {
 
 } else {
   $item = find_item_by_id($id);
-  is_user($item);
+  if(!require_user($item)) {
+    redirect_to(url_for('/staff/error.php'));
+  }
 }
 
 ?>
