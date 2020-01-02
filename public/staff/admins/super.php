@@ -32,6 +32,7 @@
 ?>
 
 <?php $page_title = 'Unlock Super'; ?>
+<?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">

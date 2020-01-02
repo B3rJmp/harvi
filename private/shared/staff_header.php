@@ -18,7 +18,7 @@
   </head>
 
   <body>
-    <header>
+    <header class="<?php echo $class ?? 'home'; ?>">
       <h1>Harvi</h1>
     </header>
     <?php if(is_logged_in()) { ?>

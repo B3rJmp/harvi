@@ -9,6 +9,7 @@
 ?>
 
 <?php $page_title = 'Locations'; ?>
+<?php $class = 'locations'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -20,7 +21,7 @@
       </div>
     <?php } ?>
     <div class="table">
-      <table class="list">
+      <table class="locations-table list">
         <tr>
           <th>Location Name</th>
           <th>Pallet Present</th>

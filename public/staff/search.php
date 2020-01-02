@@ -2,7 +2,6 @@
 
 require_once('../../private/initialize.php');
 require_login();
-get_viewer_type();
 $limit = 15;
 $input = filter_input(INPUT_POST, 'search');
 // echo $input;
@@ -16,6 +15,7 @@ if(is_post_request() && isset($input)){
     redirect_to(url_for('/staff/index.php'));
 }
 $page_title = 'Staff Menu';
+$class = 'search-result';
 include(SHARED_PATH . '/staff_header.php');
 
 ?>
@@ -38,7 +38,7 @@ include(SHARED_PATH . '/staff_header.php');
     </div>
   </div>
   <div class="table">
-    <table class="list">
+    <table class="search-table list">
       <tr>
         <th>Location</th>
         <th>Pallet</th>

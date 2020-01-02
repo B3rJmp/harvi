@@ -42,6 +42,7 @@ if(is_post_request()) {
 ?>
 
 <?php $page_title = 'Edit Location'; ?>
+<?php $class = 'locations'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">

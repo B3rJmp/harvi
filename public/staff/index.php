@@ -2,7 +2,6 @@
 
   require_once('../../private/initialize.php');
   require_login();
-  get_viewer_type();
   $limit = 15;
   $items = list_all_items($limit);
   $page_title = 'Staff Menu';

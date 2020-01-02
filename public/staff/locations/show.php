@@ -10,6 +10,7 @@ $items = find_items_by_location($id);
 ?>
 
 <?php $page_title = 'Show Location'; ?>
+<?php $class = 'locations'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -39,8 +40,13 @@ $items = find_items_by_location($id);
       </div>
       <div class="admin listing">
         <h2>Items in this location:</h2>
+        <?php if(is_manager()) { ?>
+        <a href="<?= url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit Location</a>
+        <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
+      <?php } ?>
+      <?php page_links('locations'); ?>
 
-        <table class="list">
+        <table class="locations-table list">
           <tr>
             <th>Description</th>
             <th>Quantity</th>
@@ -73,11 +79,7 @@ $items = find_items_by_location($id);
           mysqli_free_result($items);
         ?>
   </div>
-      <?php if(is_manager()) { ?>
-        <a href="<?= url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit Location</a>
-        <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
-      <?php } ?>
-      <?php page_links('locations'); ?>
+      
     </div>
 
   </div>

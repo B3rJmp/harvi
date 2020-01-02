@@ -100,6 +100,43 @@ table.list tr th {
   text-align: left;
 }
 
+.home {
+  background-color: #05d;
+}
+
+.locations {
+  background-color: #a00;
+}
+
+.search-result {
+  background-color: #507;
+}
+
+.admins {
+  background-color: #070;
+}
+
+table.locations-table tr th {
+  border: 1px solid #a00;
+  background: #a00;
+  color: white;
+  text-align: left;
+}
+
+table.admins-table tr th {
+  border: 1px solid #070;
+  background: #070;
+  color: white;
+  text-align: left;
+}
+
+table.search-table tr th {
+  border: 1px solid #507;
+  background: #507;
+  color: white;
+  text-align: left;
+}
+
 /* Forms */
 
 dl {

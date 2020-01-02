@@ -47,6 +47,7 @@ mysqli_free_result($admin_set);
 ?>
 
 <?php $page_title = 'Edit Admin'; ?>
+<?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">

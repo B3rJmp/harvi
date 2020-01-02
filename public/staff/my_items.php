@@ -2,7 +2,6 @@
 
   require_once('../../private/initialize.php');
   require_login();
-  get_viewer_type();
   $items = find_my_items();
   $page_title = 'Staff Menu';
   include(SHARED_PATH . '/staff_header.php');

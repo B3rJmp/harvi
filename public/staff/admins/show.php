@@ -11,6 +11,7 @@ $items = find_items_by_owner($id);
 ?>
 
 <?php $page_title = 'Show Admin'; ?>
+<?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -48,7 +49,7 @@ $items = find_items_by_owner($id);
       <div class="admin listing">
         <h2>Items belonging to this user:</h2>
 
-        <table class="list">
+        <table class="admins-table list">
           <tr>
             <th>Description</th>
             <th>Location</th>

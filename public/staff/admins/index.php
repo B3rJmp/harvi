@@ -11,6 +11,7 @@
 ?>
 
 <?php $page_title = 'Admins'; ?>
+<?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -23,7 +24,7 @@
     <?php } ?>
 
   	<div class="table">
-  	  <table class="list">
+  	  <table class="admins-table list">
     	  <tr>
           <!-- <th>ID</th> -->
           <th>Permissions</th>

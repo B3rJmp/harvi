@@ -23,6 +23,7 @@ if(is_post_request()) {
 ?>
 
 <?php $page_title = 'Delete Admin'; ?>
+<?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
