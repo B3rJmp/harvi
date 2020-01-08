@@ -254,6 +254,9 @@
     $sql .= "JOIN ";
     $sql .= "locations on content.location = locations.location_id ";
     $sql .= "where description like '%" . $input . "%' ";
+    $sql .= "or work_order like '%" . $input . "%' ";
+    $sql .= "or first_name like '%" . $input . "%' ";
+    $sql .= "or last_name like '%" . $input . "%' ";
     $sql .= "order by location asc, work_order desc, owner_id desc ";
     // $sql .= "limit " . $limit . " offset " . $offset;
     // echo $sql;
@@ -687,13 +690,13 @@
     }
   }
 
-  function audit_owners(){
+  function audit_owners($interval){
     global $db;
 
     $sql = "select * from people ";
     $sql .= "where admin_id in ";
     $sql .= "(select owner_id from content ";
-    $sql .= "where date_added <= now()-interval 3 month) ";
+    $sql .= "where date_added <= now()-interval " . $interval . " month) ";
     $sql .= "and admin_id != 1 ";
     // $sql .= "group by owner_id ";
     $result = mysqli_query($db, $sql);
@@ -701,13 +704,13 @@
     return $result;
   }
 
-  function audit_items($owner_id){
+  function audit_items($owner_id, $interval){
     global $db;
 
     $sql = "select * from content ";
     $sql .= "join locations on content.location = locations.location_id ";
     $sql .= "where owner_id = " . $owner_id . " ";
-    $sql .= "and date_added <= now()-interval 3 month ";
+    $sql .= "and date_added <= now()-interval " . $interval . " month ";
     $result = mysqli_query($db, $sql);
     return $result;
   }
