@@ -68,7 +68,7 @@ $items = find_items_by_owner($id);
               <td><?php if(isset($item['work_order'])){echo $item['work_order'] . ", ";}else{echo "";} echo $item['description']; ?></td>
               <td><?php echo h(strtoupper($item['location_name'])); ?></td>
               <td><?php echo $item['pallet'] ? "Yes" : "No"; ?></td>
-              <td><?php echo h($item['date_added']); ?></td>
+              <td><?php echo h(date('d-M-Y', strtotime($item['date_added']))); ?></td>
               <td><a class="action" href="<?php echo url_for('/staff/show.php?id=' . h(u($item['id']))); ?>">View</a></td>
               <?php if(is_manager()) { ?>
                 <td><a class="action" href="<?php echo url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit</a></td>

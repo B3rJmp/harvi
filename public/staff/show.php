@@ -20,9 +20,9 @@ $table = "content";
 <div id="content">
 
   <?php //if(has_presence($msg)) { ?>
-    <!-- <a class="back-link" href="<?php //url_for('/staff/index.php'); ?>">&laquo; Back</a> -->
+    <a class="back-link" href="<?php echo url_for('/staff/locations/show.php?id=' . $item['location']); ?>">&laquo; Back</a>
   <?php //}else{ ?>
-    <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
+    <!-- <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a> -->
   <?php //} ?>
 
   <div class="bigdiv">
@@ -60,10 +60,10 @@ $table = "content";
       </div>
       <div class="location">
         <!-- <h2>Location:</h2> -->
-        <img src="<?= location_img($item['location']); ?>" alt="Location">
+        <img src="<?= $item['img']; ?>" alt="Location">
       </div>
     </div>
-    <?php page_links($table); ?>
+    <?php //page_links($table); ?>
     <?php if(require_user($item)) { ?>
       <a href="<?= url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit Item</a>
     <?php } ?>

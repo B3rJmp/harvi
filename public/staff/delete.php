@@ -14,7 +14,7 @@ if(is_post_request()) {
 
   $result = delete_item($id);
   $_SESSION['message'] = 'The subject was deleted.';
-  redirect_to(url_for('/staff/index.php'));
+  redirect_to(url_for('/staff/locations/show.php?id=' . $_POST['location']));
 
 } else {
   $item = find_item_by_id($id);
@@ -39,6 +39,7 @@ if(is_post_request()) {
 
     <form action="<?php echo url_for('/staff/delete.php?id=' . h(u($item['id']))); ?>" method="post">
       <div id="operations">
+        <input type="hidden" name="location" value="<?php echo $item['location']; ?>">
         <input type="submit" name="commit" value="Delete Item" />
       </div>
     </form>

@@ -38,7 +38,7 @@
           <!-- <td><?php //if(!isset($item['work_order']) || $item['work_order'] == '') {echo $item['description'];}else{echo h($item['work_order']) . ", " . $item['description'];} ?></td> -->
           <td><?php if(isset($item['work_order'])){echo $item['work_order'] . ", ";}else{echo "";} echo $item['description']; ?></td>
           <!-- <td><?php //echo h($item['first_name']) . " " . h($item['last_name']); ?></td> -->
-    	    <td><?php echo h($item['date_added']); ?></td>
+    	    <td><?php echo h(date('d-M-Y', strtotime($item['date_added']))); ?></td>
           <td><a class="action" href="<?php echo url_for('/staff/show.php?id=' . h(u($item['id']))); ?>">View</a></td>
           <td><a class="action" href="<?php echo url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit</a></td>
           <td><a class="action" href="<?php echo url_for('/staff/delete.php?id=' . h(u($item['id']))); ?>">Delete</a></td>

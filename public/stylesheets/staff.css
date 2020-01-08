@@ -202,3 +202,7 @@ dd {
   display: flex;
   justify-content: space-between;
 }
+
+.action_links {
+  margin-bottom: 10px;
+}

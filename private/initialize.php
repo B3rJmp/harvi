@@ -27,8 +27,10 @@
   require_once('query_functions.php');
   require_once('validation_functions.php');
   require_once('auth_functions.php');
-  require_once('session_timeout.php');
   
+  // session timeout in seconds
+  // default is 15 minutes (900 seconds)
+  session_timeout(900);
   $db = db_connect();
   $errors = [];
   require_once('audit.php');

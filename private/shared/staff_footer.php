@@ -1,5 +1,5 @@
 <footer class="<?php echo $class ?? 'home'; ?>">
-  &copy; <?php echo date('Y'); ?> Harvi
+  <?php echo date('Y'); ?> Harvi
 </footer>
 
 </body>

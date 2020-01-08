@@ -35,16 +35,18 @@ $items = find_items_by_location($id);
         </div>
         <div class="location">
           <!-- <h2>Location:</h2> -->
-          <img src="<?= location_img($location['location_id']); ?>" alt="Location">
+          <img src="<?= $location['img']; ?>" alt="Location">
         </div>
       </div>
       <div class="admin listing">
         <h2>Items in this location:</h2>
-        <?php if(is_manager()) { ?>
-        <a href="<?= url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit Location</a>
-        <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
-      <?php } ?>
-      <?php page_links('locations'); ?>
+        <div class="action_links">
+          <?php if(is_manager()) { ?>
+            <a href="<?= url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit Location</a>
+            <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
+          <?php } ?>
+          <?php page_links('locations'); ?>
+        </div>
 
         <table class="locations-table list">
           <tr>

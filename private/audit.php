@@ -21,24 +21,29 @@
     // get current date and first Monday of current month
     $today = date('Y-m-d');
     $first_monday = date('Y-m-d', strtotime("first monday of this month"));
+    // get date of last audit
     $last_audit = last_audit();
-    // $first_monday = $today;
     // get audit status
     if($today == $last_audit){
-        $status = 1;
+        $complete = true;
     }else{
-        $status = 0;
+        $complete = false;
     }
+    // set expiration date in months
+    // ex. if searching for items older than 6 months, $interval = 6;
+    $interval = 3;
+
+    // execute script
     if($today==$first_monday){
         // if audit has not been performed yet
-        if($status == 0){
+        if(!$complete){
             
             // find all owners with items older than time limit
-            $owners = audit_owners();
+            $owners = audit_owners($interval);
 
             // sort items by owner, send individual email to each owner with all their items in it
             foreach($owners as $owner){
-                $items = audit_items($owner['admin_id']);
+                $items = audit_items($owner['admin_id'], $interval);
                 // for all items with no defined owner, email managers
                 if($owner['admin_id'] == 0) {
                     $to = '';
@@ -91,18 +96,17 @@
             }
             // audit is complete, only do once on the first monday of each month
             
+            // count how many items were audited
             $count = count_audit();
-            new_audit($today, $count);
+            echo $count;
+            // log the date of the last audit, and the quantity of items audited
+            // new_audit($today, $count);
         }else{
-            // // $_SESSION['message'] = "Last audit was done " . $first_monday . ".";
-            // // unset($_SESSION['message']);
-            // echo "Audit has been performed";
+            // if audit has already been completed, display complete message
+            $_SESSION['message'] = "Audit has been performed.";
         }
     }else{
-        // once first monday is done, reset audit variable
-        // $_SESSION['audit'] = 0;
-        // echo "Today is " . $today . ".<br>";
-        // echo "Last audit was performed on " . $first_monday . ".";
+        // on any day that is not the first monday of the month, the script will not execute
     }
     
 
