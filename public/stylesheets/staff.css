@@ -206,3 +206,17 @@ dd {
 .action_links {
   margin-bottom: 10px;
 }
+
+.first_notice {
+  background-color: yellow;
+}
+
+.second_notice, .second_notice a {
+  background-color: orange;
+  color: white;
+}
+
+.final_notice, .final_notice a {
+  background-color: red;
+  color: white;
+}

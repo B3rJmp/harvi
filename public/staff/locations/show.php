@@ -62,7 +62,7 @@ $items = find_items_by_location($id);
           </tr>
 
           <?php while($item = mysqli_fetch_assoc($items)) { ?>
-            <tr>
+            <tr class="<?php echo change_color($item['audit_number']); ?>">
               <!-- <td><?php //if(!isset($item['work_order']) || $item['work_order'] == '') {echo $item['description'];}else{echo h($item['work_order']) . ", " . $item['description'];} ?></td> -->
               <td><?php if(isset($item['work_order'])){echo h($item['work_order']) . ", ";}else{echo "";} echo h($item['description']); ?></td>
               <td><?php echo h($item['quantity']); ?></td>

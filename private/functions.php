@@ -221,5 +221,19 @@
 
   }
 
+  function change_color($audit_number) {
+    
+    if($audit_number == 1) {
+      return "first_notice";
+    }elseif($audit_number == 2) {
+      return "second_notice";
+    }elseif($audit_number >= 3) {
+      return "final_notice";
+    }else{
+      return "";
+    }
+
+  }
+
 
 ?>

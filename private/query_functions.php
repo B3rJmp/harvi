@@ -435,7 +435,8 @@
     $sql .= "owner_id='" . db_escape($db, no_owner($item['owner_id'])) . "', ";
     $sql .= "description='" . db_escape($db, $item['description']) . "', ";
     $sql .= "quantity='" . db_escape($db, $item['quantity']) . "', ";
-    $sql .= "date_added='" . db_escape($db, $item['date_added']) . "' ";
+    $sql .= "date_added='" . db_escape($db, $item['date_added']) . "', ";
+    $sql .= "audit_number=" . db_escape($db, $item['audit_number']) . " ";
     $sql .= "WHERE id='" . db_escape($db, $item['id']) . "' ";
     $sql .= "LIMIT 1";
     echo $sql;
@@ -750,6 +751,25 @@
 
     $result = mysqli_query($db, $sql);
     // For UPDATE statements, $result is true/false
+    if($result) {
+      return true;
+    } else {
+      // UPDATE failed
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function audit_count_up($interval) {
+    global $db;
+
+    $sql = "update content ";
+    $sql .= "set audit_number = (audit_number + 1) ";
+    // $sql .= "set audit_number = 1 ";
+    $sql .= "where owner_id != 1 ";
+    $sql .= "and date_added <= now()-interval " . $interval . " month ";
+    $result = mysqli_query($db, $sql);
     if($result) {
       return true;
     } else {

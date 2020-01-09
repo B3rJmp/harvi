@@ -54,7 +54,7 @@ include(SHARED_PATH . '/staff_header.php');
         <?php } ?>
       </tr>
       <?php while($item = mysqli_fetch_assoc($items)) { ?>
-        <tr>
+        <tr class="<?php echo change_color($item['audit_number']); ?>">
           <td><?php echo strtoupper(h($item['location_name'])); ?></td>
           <td><?php echo (h($item['pallet']) ? "Yes" : "No"); ?></td>
           <!-- <td><?php //if(!isset($item['work_order']) || $item['work_order'] == '') {echo $item['description'];}else{echo h($item['work_order']) . ", " . $item['description'];} ?></td> -->

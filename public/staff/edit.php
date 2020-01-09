@@ -21,6 +21,7 @@ if(is_post_request()) {
   $item['quantity'] = $_POST['quantity'] ?? 1;
   $item['owner_id'] = $_POST['owner_id'] ?? 0;
   $item['date_added'] = $_POST['date_added'] ?? date("Y-m-d");
+  $item['audit_number'] = $_POST['audit_count'] ?? 0;
 
   $result = update_item($item);
 
@@ -107,6 +108,14 @@ if(is_post_request()) {
         <?php }else{ echo $item['date_added'];} ?>
         </dd>
       </dl>
+      <?php if(is_admin()) { ?>
+        <dl>
+          <dt>Audit Notice</dt>
+          <dd>
+            <input type="number" name="audit_count" value="<?= $item['audit_number']; ?>" />
+          </dd>
+        </dl>
+      <?php } ?>
       <div id="operations">
         <input type="submit" value="Edit Item" />
       </div>

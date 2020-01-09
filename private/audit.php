@@ -61,10 +61,15 @@
                     foreach($items as $item){
                         $message .= "<li>";
                         if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
-                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")</li>";
+                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
+                        if($item['audit_number'] >= 3) {
+                            $message .= " <strong style='color: red;'>Final Notice</strong>";
+                        }
+                        $message .= "</li>";
                     }
                     $message .= "</ul>";
                     $message .= "If you could help us track down the owners, that would be a great help. Thanks!!<br>";
+                    $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
                     if(isset($to) && $to != NULL && $to != ''){
                         if(!empty($items)){
                             $mail = mail($to, $subject, $message, $headers);
@@ -82,10 +87,16 @@
                     foreach($items as $item){
                         $message .= "<li>";
                         if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
-                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")</li>";
+                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
+                        if($item['audit_number'] >= 3) {
+                            $message .= " <strong style='color: red;'>Final Notice</strong>";
+                        }
+                        $message .= "</li>";
+
                     }
                     $message .= "</ul>";
                     $message .= "In any case, come and find me if you have any questions, thanks!!<br>";
+                    $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
                     if(isset($to) && $to != NULL && $to != ''){
                         if(!empty($items)){
                             $mail = mail($to, $subject, $message, $headers);
@@ -98,9 +109,10 @@
             
             // count how many items were audited
             $count = count_audit();
-            echo $count;
+            // add audit to audit count
+            audit_count_up($interval);
             // log the date of the last audit, and the quantity of items audited
-            // new_audit($today, $count);
+            new_audit($today, $count);
         }else{
             // if audit has already been completed, display complete message
             $_SESSION['message'] = "Audit has been performed.";
