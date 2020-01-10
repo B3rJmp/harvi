@@ -90,11 +90,11 @@ mysqli_free_result($admin_set);
       <?php if(isset($_SESSION['super_admin'])) { ?>
         <dl>
           <dt>Password</dt>
-          <dd><input type="text" name="password" value="<?php //echo h($admin['password']); ?>" /></dd>
+          <dd><input type="password" name="password" value="<?php //echo h($admin['password']); ?>" /></dd>
         </dl>
         <dl>
           <dt>Confirm Password</dt>
-          <dd><input type="text" name="password_confirm" value="<?php //echo h($admin['password']); ?>" /></dd>
+          <dd><input type="password" name="password_confirm" value="<?php //echo h($admin['password']); ?>" /></dd>
         </dl>
       <?php }else{ ?>
         <?php if(is_admin()){ ?>

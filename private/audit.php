@@ -37,14 +37,17 @@
     if($today==$first_monday){
         // if audit has not been performed yet
         if(!$complete){
-            
+
+            // add audit to audit count
+            audit_count_up($interval);
             // find all owners with items older than time limit
             $owners = audit_owners($interval);
 
             // sort items by owner, send individual email to each owner with all their items in it
             foreach($owners as $owner){
-                $items = audit_items($owner['admin_id'], $interval);
                 // for all items with no defined owner, email managers
+                $items = audit_items($owner['admin_id'], $interval);
+                
                 if($owner['admin_id'] == 0) {
                     $to = '';
                     $managers = get_managers();
@@ -109,8 +112,6 @@
             
             // count how many items were audited
             $count = count_audit();
-            // add audit to audit count
-            audit_count_up($interval);
             // log the date of the last audit, and the quantity of items audited
             new_audit($today, $count);
         }else{

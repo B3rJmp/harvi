@@ -14,7 +14,11 @@
 
 <div id="content">
   <div class="admin listing">
-    <h1>Locations</h1>
+    <h1>Locations Layout</h1>
+    <div class="layout">
+      <img src="<?php if(!isset($_GET['region'])){echo "/images/layout.png";}else{echo "/images/layout-" . $_GET['region'] . ".png";} ?>" alt="layout">
+    </div>
+    <h2>Browse Locations:</h2>
     <?php if(is_admin()){ ?>
       <div class="actions">
         <a class="action" href="<?php echo url_for('/staff/locations/new.php'); ?>">Add Location</a>

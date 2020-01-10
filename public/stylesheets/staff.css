@@ -11,7 +11,7 @@ body {
 }
 
 header {
-  width: 980px;
+  width: 1080px;
   height: 40px;
   margin: 0 0 10px 0;
   padding: 0;
@@ -28,14 +28,14 @@ header h1 {
 }
 
 navigation {
-  width: 980px;
+  width: 1080px;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 navigation ul {
-  width: 980px;
+  width: 1080px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -51,13 +51,13 @@ a {
 }
 
 #content {
-  width: 920px;
+  width: 1020px;
   min-height: 500px;
   padding: 0 30px;
 }
 
 footer {
-  width: 940px;
+  width: 1040px;
   height: 20px;
   margin: 0 0 10px 0;
   padding: 10px 20px;
@@ -194,13 +194,22 @@ dd {
   margin-bottom: 50px;
 }
 
-.location h2 {
-  margin-top: 0px;
+.location {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 67%;
 }
 
 .links {
   display: flex;
   justify-content: space-between;
+}
+
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .action_links {

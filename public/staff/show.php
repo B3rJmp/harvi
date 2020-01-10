@@ -61,6 +61,9 @@ $table = "content";
       <div class="location">
         <!-- <h2>Location:</h2> -->
         <img src="<?= $item['img']; ?>" alt="Location">
+        <?php if(isset($item['level_img'])) { ?>
+          <img src="<?php echo $item['level_img']; ?>" alt="level">
+        <?php } ?>
       </div>
     </div>
     <?php //page_links($table); ?>

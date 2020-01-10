@@ -253,10 +253,9 @@
     $sql .= "people on content.owner_id = people.admin_id ";
     $sql .= "JOIN ";
     $sql .= "locations on content.location = locations.location_id ";
-    $sql .= "where description like '%" . $input . "%' ";
-    $sql .= "or work_order like '%" . $input . "%' ";
-    $sql .= "or first_name like '%" . $input . "%' ";
-    $sql .= "or last_name like '%" . $input . "%' ";
+    $sql .= "where description like '%" . db_escape($db, $input) . "%' ";
+    $sql .= "or work_order like '%" . db_escape($db, $input) . "%' ";
+    $sql .= "or concat_ws(\" \", first_name, last_name) like '%" . db_escape($db, $input) . "%' ";
     $sql .= "order by location asc, work_order desc, owner_id desc ";
     // $sql .= "limit " . $limit . " offset " . $offset;
     // echo $sql;
@@ -600,84 +599,6 @@
     $sql .= "('" . strtolower($location['name']) . "', " . $location['pallet'] . ") ";
     // echo $sql;
     // var_dump($sql);
-
-    $result = mysqli_query($db, $sql);
-    // For UPDATE statements, $result is true/false
-    if($result) {
-      return true;
-    } else {
-      // UPDATE failed
-      echo mysqli_error($db);
-      db_disconnect($db);
-      exit;
-    }
-  }
-
-  function shift_subject_positions($start_pos, $end_pos, $current_id=0) {
-    global $db;
-
-    if($start_pos == $end_pos) {
-      return;
-    }
-
-    $sql = "update subjects ";
-    if($start_pos == 0){ // adding items
-      $sql .= "set position = position + 1 ";
-      $sql .= "where position >= '" . db_escape($db, $end_pos) . "' ";
-    }elseif($end_pos == 0){ // deleting items
-        $sql .= "set position = position - 1 ";
-        $sql .= "where position > '" . db_escape($db, $start_pos) . "' ";
-    }elseif($start_pos < $end_pos) { // moving down list
-      $sql .= "set position = position - 1 ";
-      $sql .= "where position > '" . db_escape($db, $start_pos) . "' ";
-      $sql .= "and position <= '" . db_escape($db, $end_pos) . "' ";
-    }elseif($start_pos > $end_pos) { // moving up list
-      $sql .= "set position = position + 1 ";
-      $sql .= "where position >= '" . db_escape($db, $end_pos) . "' ";
-      $sql .= "and position < '" . db_escape($db, $start_pos) . "' ";
-    }
-    // avoid changing the current selection
-    $sql .= "and id != '" . db_escape($db, $current_id) . "' ";
-
-    $result = mysqli_query($db, $sql);
-
-    if($result) {
-      return true;
-    }else{
-      echo mysqli_error($db);
-      db_disconnect($db);
-      exit;
-    }
-  }
-
-  function shift_page_positions($start_pos, $end_pos, $subject_id, $current_id=0) {
-    global $db;
-
-    if($start_pos == $end_pos) { return; }
-
-    $sql = "UPDATE pages ";
-    if($start_pos == 0) {
-      // new item, +1 to items greater than $end_pos
-      $sql .= "SET position = position + 1 ";
-      $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
-    } elseif($end_pos == 0) {
-      // delete item, -1 from items greater than $start_pos
-      $sql .= "SET position = position - 1 ";
-      $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
-    } elseif($start_pos < $end_pos) {
-      // move later, -1 from items between (including $end_pos)
-      $sql .= "SET position = position - 1 ";
-      $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
-      $sql .= "AND position <= '" . db_escape($db, $end_pos) . "' ";
-    } elseif($start_pos > $end_pos) {
-      // move earlier, +1 to items between (including $end_pos)
-      $sql .= "SET position = position + 1 ";
-      $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
-      $sql .= "AND position < '" . db_escape($db, $start_pos) . "' ";
-    }
-    // Exclude the current_id in the SQL WHERE clause
-    $sql .= "AND id != '" . db_escape($db, $current_id) . "' ";
-    $sql .= "AND subject_id = '" . db_escape($db, $subject_id) . "'";
 
     $result = mysqli_query($db, $sql);
     // For UPDATE statements, $result is true/false

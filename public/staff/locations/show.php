@@ -27,7 +27,7 @@ $items = find_items_by_location($id);
 
     <div class="attributes">
       <div class="itemShow">
-        <div>
+        <div style="width: 33%;">
           <dl>
             <dt>Pallet Present</dt>
             <dd><?php echo $location['pallet'] ? "Yes" : "No"; ?></dd>
@@ -36,6 +36,10 @@ $items = find_items_by_location($id);
         <div class="location">
           <!-- <h2>Location:</h2> -->
           <img src="<?= $location['img']; ?>" alt="Location">
+          <?php if(isset($location['level_img'])) { ?>
+            <img src="<?php echo $location['level_img']; ?>" alt="level">
+          <?php } ?>
+
         </div>
       </div>
       <div class="admin listing">
