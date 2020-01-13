@@ -19,7 +19,11 @@ if(is_post_request()) {
   $item['work_order'] = strtoupper($_POST['work_order']) ?? NULL;
   $item['description'] = $_POST['description'] ?? '';
   $item['quantity'] = $_POST['quantity'] ?? 1;
-  $item['owner_id'] = $_POST['owner_id'] ?? 0;
+  if(!is_manager()){
+    $item['owner_id'] = $_SESSION['admin_id'];
+  }else{
+    $item['owner_id'] = $_POST['owner_id'] ?? 0;
+  }
   $item['date_added'] = $_POST['date_added'] ?? date("Y-m-d");
   $item['audit_number'] = $_POST['audit_count'] ?? 0;
 
@@ -92,12 +96,17 @@ if(is_post_request()) {
       <dl>
         <dt>Owner</dt></dt>
         <dd>
-          <select name="owner_id" id="">
-            <option value=""></option>
-            <?php foreach($people as $person) { ?>
-              <option value="<?= $person['admin_id']; ?>" <?= $person['admin_id'] == $item['owner_id'] ? "selected" : "" ?>><?= $person['first_name'] . " " . $person['last_name']; ?></option>
-            <?php } ?>
-          </select>
+        <?php if(!is_manager()) { ?>
+            <input type="hidden" value="<?php echo $_SESSION['admin_id']; ?>" name="owner_id">
+            <?php echo $_SESSION['name']; ?>
+          <?php }else{ ?>
+            <select name="owner_id" id="">
+              <option value=""></option>
+              <?php foreach($people as $person) { ?>
+                <option value="<?= $person['admin_id']; ?>" <?= $person['admin_id'] == $item['owner_id'] ? "selected" : "" ?>><?= $person['first_name'] . " " . $person['last_name']; ?></option>
+              <?php } ?>
+            </select>
+          <?php } ?>
         </dd>
       </dl>
       <dl>
@@ -105,7 +114,10 @@ if(is_post_request()) {
         <dd>
         <?php if(is_manager()) { ?>
           <input type="date" name="date_added" value="<?= $item['date_added'] ?? date("Y-m-d"); ?>" />
-        <?php }else{ echo $item['date_added'];} ?>
+        <?php }else{ ?>
+          <input type="hidden" value="<?php echo $item['date_added']; ?>" name="date_added">
+          <?php echo $item['date_added']; ?>
+        <?php } ?>
         </dd>
       </dl>
       <?php if(is_admin()) { ?>

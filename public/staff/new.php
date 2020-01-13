@@ -21,7 +21,11 @@ if(is_post_request()) {
   $item['work_order'] = strtoupper($_POST['work_order']) ?? NULL;
   $item['description'] = $_POST['description'] ?? '';
   $item['quantity'] = $_POST['quantity'] ?? 1;
-  $item['owner_id'] = $_POST['owner_id'] ?? 0;
+  if(!is_manager()){
+    $item['owner_id'] = $_SESSION['admin_id'];
+  }else{
+    $item['owner_id'] = $_POST['owner_id'] ?? 0;
+  }
   $item['date_added'] = $_POST['date_added'] ?? date("Y-m-d");
 
   $result = insert_item($item);
@@ -86,12 +90,16 @@ if(is_post_request()) {
       <dl>
         <dt>Owner</dt></dt>
         <dd>
-          <select name="owner_id" id="">
-            <option value="0"></option>
-            <?php foreach($people as $person) { ?>
-              <option value="<?= $person['admin_id']; ?>"><?= $person['first_name'] . " " . $person['last_name']; ?></option>
-            <?php } ?>
-          </select>
+          <?php if(!is_manager()) { 
+             echo $_SESSION['name'];
+          }else{ ?>
+            <select name="owner_id" id="">
+              <option value="0"></option>
+              <?php foreach($people as $person) { ?>
+                <option value="<?= $person['admin_id']; ?>"><?= $person['first_name'] . " " . $person['last_name']; ?></option>
+              <?php } ?>
+            </select>
+          <?php } ?>
         </dd>
       </dl>
       <dl>

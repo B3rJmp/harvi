@@ -346,7 +346,12 @@
 
     // location
     if(is_blank($item['location'])) {
-      $item['location'] = 68;
+      $errors[] = "Item must have a defined location";
+    }else{
+      // location = number?
+      if(!is_numeric($item['location']) && !is_blank($item['location'])){
+        $errors[] = "Something is wrong with the selected location";
+      }
     }
 
     // description
@@ -358,8 +363,9 @@
     if(is_blank($item['quantity'])) {
       $errors[] = "Item must have a quantity";
     }
+
     if($item['quantity'] <= 0) {
-      $errors[] = "Item quantity must be greater than 1";
+      $errors[] = "Item quantity must be at least 1";
     }
 
     // date added
@@ -368,11 +374,6 @@
     }
     if(strtotime($item['date_added']) > time()){
       $errors[] = "Date can not be in the future";
-    }
-
-    // location = number?
-    if(!is_numeric($item['location'])){
-      $errors[] = "Something is wrong with the selected location";
     }
     
     // owner_id = number?
