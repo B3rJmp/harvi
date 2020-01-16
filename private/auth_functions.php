@@ -14,13 +14,13 @@
 
   // Performs all actions necessary to log out an admin
   function log_out_admin() {
-    unset($_SESSION['admin_id']);
-    unset($_SESSION['name']);
-    unset($_SESSION['last_login']);
-    unset($_SESSION['username']);
-    unset($_SESSION['type']);
-    unset($_SESSION['super_admin']);
-    // session_destroy(); // optional: destroys the whole session
+    // unset($_SESSION['admin_id']);
+    // unset($_SESSION['name']);
+    // unset($_SESSION['last_login']);
+    // unset($_SESSION['username']);
+    // unset($_SESSION['type']);
+    // unset($_SESSION['super_admin']);
+    session_destroy(); // optional: destroys the whole session
     return true;
   }
 
@@ -100,6 +100,21 @@
       // require_manager();
       // die();
     }
+  }
+
+  function session_timeout($time_limit = 900) {
+
+    // check last activity
+    // if inactive for more than 15 minutes, log out admin
+    if(is_logged_in()) {
+      if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
+        $_SESSION['message'] = "Your session timed out, please log back in.";
+        log_out_admin();
+      }
+      // record last activity
+      $_SESSION['LAST_ACTIVITY'] = time();
+    }
+
   }
 
 ?>
