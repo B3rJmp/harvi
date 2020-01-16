@@ -157,7 +157,7 @@
 
   function location_pagination() {
     global $db;
-    $url = $_SERVER['SCRIPT_NAME'];
+    $url = url_for('/staff/index.php');
     // echo $url;
 
     if(isset($_GET['region'])){

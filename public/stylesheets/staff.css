@@ -15,7 +15,7 @@ header {
   height: 40px;
   margin: 0 0 10px 0;
   padding: 0;
-  background: #0055DD;
+  background: #a00;
   color: white;
 }
 
@@ -61,7 +61,7 @@ footer {
   height: 20px;
   margin: 0 0 10px 0;
   padding: 10px 20px;
-  background: #0055DD;
+  background: #a00;
   color: white;
 }
 
@@ -94,18 +94,18 @@ table.list tr td {
 }
 
 table.list tr th {
-  border: 1px solid #0055DD;
-  background: #0055DD;
+  border: 1px solid #a00;
+  background: #a00;
   color: white;
   text-align: left;
 }
 
 .home {
-  background-color: #05d;
+  background-color: #a00;
 }
 
 .locations {
-  background-color: #a00;
+  background-color: #05d;
 }
 
 .search-result {
@@ -117,8 +117,8 @@ table.list tr th {
 }
 
 table.locations-table tr th {
-  border: 1px solid #a00;
-  background: #a00;
+  border: 1px solid #05d;
+  background: #05d;
   color: white;
   text-align: left;
 }

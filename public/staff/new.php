@@ -55,7 +55,7 @@ if(is_post_request()) {
 <div id="content">
 
   <!-- <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back to List</a> -->
-  <a class="back-link" href="<?= url_for('/staff/locations/index.php') ?>">&laquo; Back</a>
+  <a class="back-link" href="<?= url_for('/staff/index.php') ?>">&laquo; Back</a>
 
   <div class="subject new">
     <h1>Add Item</h1>

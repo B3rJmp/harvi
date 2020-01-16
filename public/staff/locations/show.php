@@ -80,6 +80,7 @@ $items = find_items_by_location($id);
             </tr>
           <?php } ?>
         </table>
+      <?php //location_pagination(); ?>
 
         <?php
           mysqli_free_result($items);

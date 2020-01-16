@@ -47,6 +47,7 @@ if(is_post_request()) {
 ?>
 
 <?php $page_title = 'Log in'; ?>
+<?php $class = 'locations'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
