@@ -13,6 +13,7 @@ if(is_post_request()) {
   $admin['first_name'] = $_POST['first_name'] ?? '';
   $admin['last_name'] = $_POST['last_name'] ?? '';
   $admin['email'] = $_POST['email'] ?? '';
+  $admin['permission'] = $_SESSION['type'];
   $admin['username'] = $_POST['username'] ?? '';
   $admin['password'] = $_POST['password'] ?? '';
   $admin['password_confirm'] = $_POST['password_confirm'] ?? '';
@@ -70,11 +71,11 @@ if(is_post_request()) {
       </dl>
       <dl>
         <dt>Password</dt>
-        <dd><input type="text" name="password" /></dd>
+        <dd><input type="password" name="password" /></dd>
       </dl>
       <dl>
         <dt>Confirm Password</dt>
-        <dd><input type="text" name="password_confirm" /></dd>
+        <dd><input type="password" name="password_confirm" /></dd>
       </dl>
       <div id="operations">
         <input type="submit" value="Edit Admin" />

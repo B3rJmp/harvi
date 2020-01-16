@@ -208,19 +208,6 @@
     }
   }
 
-  function session_timeout($time_limit = 900) {
-
-    // check last activity
-    // if inactive for more than 15 minutes, log out admin
-    if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
-      $_SESSION['message'] = "Your session timed out, please log back in.";
-      log_out_admin();
-    }
-    // record last activity
-    $_SESSION['LAST_ACTIVITY'] = time();
-
-  }
-
   function change_color($audit_number) {
     
     if($audit_number == 1) {

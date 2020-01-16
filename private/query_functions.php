@@ -8,7 +8,7 @@
     $sql .= "JOIN ";
     $sql .= "view_type on people.type = view_type.type_id ";
     $sql .= "where admin_id > 1 ";
-    $sql .= "ORDER BY viewer_type asc ";
+    $sql .= "ORDER BY type_id asc ";
     $sql .= "limit " . $limit . " offset " . $offset ;
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -172,7 +172,6 @@
 
   function update_admin($admin){
     global $db;
-    unset($_SESSION['super_admin']);
 
     $password_sent = !is_blank($admin['password']);
 
@@ -205,6 +204,7 @@
       db_disconnect($db);
       exit;
     }
+    unset($_SESSION['super_admin']);
   }
 
   function delete_admin($id){

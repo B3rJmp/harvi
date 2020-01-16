@@ -18,8 +18,8 @@ if(is_post_request()) {
   $admin['email'] = $_POST['email'] ?? '';
   $admin['permission'] = $_POST['permission']==NULL || $_POST['permission']=="" ? 3 : $_POST['permission'];
   $admin['username'] = $_POST['username'] ?? '';
-  $admin['password'] = $_POST['password'] ?? 'P@55word';
-  $admin['password_confirm'] = $_POST['password_confirm'] ?? 'P@55word';
+  $admin['password'] = $_POST['password'] ?? DEFAULT_PASS;
+  $admin['password_confirm'] = DEFAULT_PASS;
 
   $result = insert_admin($admin);
   if($result === true) {
@@ -42,7 +42,7 @@ if(is_post_request()) {
 
 ?>
 
-<?php $page_title = 'Create Admin'; ?>
+<?php $page_title = 'Create User'; ?>
 <?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -51,7 +51,7 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/staff/admins/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="admin new">
-    <h1>Create Admin</h1>
+    <h1>Create User</h1>
 
     <?php echo display_errors($errors); ?>
 

@@ -22,7 +22,7 @@ if(is_post_request()) {
 
 ?>
 
-<?php $page_title = 'Delete Admin'; ?>
+<?php $page_title = 'Delete User'; ?>
 <?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -31,7 +31,7 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/staff/admins/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="admin delete">
-    <h1>Delete Admin</h1>
+    <h1>Delete User</h1>
     <p>Are you sure you want to delete this admin?</p>
     <p class="item"><?php echo h($admin['last_name'] . ", " . $admin['first_name']); ?></p>
 

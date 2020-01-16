@@ -21,8 +21,10 @@ if(is_post_request()) {
   $admin['permission'] = $_POST['permission']==NULL || $_POST['permission']=="" ? 3 : $_POST['permission'];
   $admin['email'] = $_POST['email'] ?? '';
   $admin['username'] = $_POST['username'] ?? '';
-  $admin['password'] = $_POST['password'] ?? '';
-  $admin['password_confirm'] = $_POST['password_confirm'] ?? '';
+  if(isset($_SESSION['super_admin'])){
+    $admin['password'] = DEFAULT_PASS;
+    $admin['password_confirm'] = DEFAULT_PASS;
+  }
 
   $result = update_admin($admin);
   if($result === true) {
@@ -46,7 +48,7 @@ mysqli_free_result($admin_set);
 
 ?>
 
-<?php $page_title = 'Edit Admin'; ?>
+<?php $page_title = 'Edit User'; ?>
 <?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -55,7 +57,7 @@ mysqli_free_result($admin_set);
   <a class="back-link" href="<?php echo url_for('/staff/admins/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="admin edit">
-    <h1>Edit Admin</h1>
+    <h1>Edit User</h1>
 
     <?php echo display_errors($errors); ?>
 
@@ -90,11 +92,7 @@ mysqli_free_result($admin_set);
       <?php if(isset($_SESSION['super_admin'])) { ?>
         <dl>
           <dt>Password</dt>
-          <dd><input type="password" name="password" value="<?php //echo h($admin['password']); ?>" /></dd>
-        </dl>
-        <dl>
-          <dt>Confirm Password</dt>
-          <dd><input type="password" name="password_confirm" value="<?php //echo h($admin['password']); ?>" /></dd>
+          <dd>Reset to default password</dd>
         </dl>
       <?php }else{ ?>
         <?php if(is_admin()){ ?>
