@@ -30,7 +30,7 @@ if(is_post_request()) {
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back to List</a>
+<a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
 
   <div class="subject delete">
     <h1>Delete Item</h1>

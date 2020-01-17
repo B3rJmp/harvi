@@ -233,7 +233,7 @@
           $region = $_COOKIE['last_region'];
           setcookie('last_region', $region, time() + 900, "/");
         }else{
-
+          setcookie('last_region', '', time(), "/");
         }
       }
     }

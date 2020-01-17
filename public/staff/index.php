@@ -45,9 +45,6 @@
           <th>&nbsp;</th>
           <?php if(is_manager()) { ?>
             <th>&nbsp;</th>
-            <?php if(is_admin()) { ?>
-              <th>&nbsp;</th>
-            <?php } ?>
           <?php } ?>
         </tr>
 
@@ -58,9 +55,6 @@
             <td><a class="action" href="<?php echo url_for('/staff/locations/show.php?id=' . h(u($location['location_id']))); ?>">View</a></td>
             <?php if(is_manager()) { ?>
               <td><a class="action" href="<?php echo url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit</a></td>
-              <?php if(is_admin()){ ?>
-                <td><a class="action" href="<?php echo url_for('/staff/locations/delete.php?id=' . h(u($location['location_id']))); ?>">Delete</a></td>
-              <?php } ?>
             <?php } ?>
           </tr>
         <?php } ?>

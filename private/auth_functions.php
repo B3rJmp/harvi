@@ -21,6 +21,7 @@
     unset($_SESSION['type']);
     unset($_SESSION['super_admin']);
     unset($_SESSION['LAST_ACTIVITY']);
+    setcookie('last_region', '', time(), "/");
     // session_destroy(); // optional: destroys the whole session
     return true;
   }

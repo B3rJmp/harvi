@@ -9,7 +9,11 @@
 ?>
 
 <div id="content">
-  <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back to List</a>
+<?php if(isset($_COOKIE['last_region'])){ ?>
+    <a class="back-link" href="<?php echo url_for('/staff/index.php?region=' . h(u($_COOKIE['last_region']))); ?>">&laquo; Back</a>
+  <?php }else{ ?>
+    <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back</a>
+  <?php } ?>
   <div class="admin listing">
     <h1>My Items</h1>
 
