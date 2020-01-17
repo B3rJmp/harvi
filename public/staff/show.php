@@ -57,7 +57,7 @@ $table = "content";
                   <?= h($item['first_name']) . " " . h($item['last_name']); ?>
                 <?php } ?>
               </td>
-              <td><?php echo h($item['email']); ?></td>
+              <td><a href="mailto:<?php echo h($item['email']); ?>?subject=<?php echo isset($item['work_order']) ? h($item['work_order']) . ", " . h($item['description']) . " (" . h(strtoupper($item['location_name'])) . ")" : h($item['description']) . ", (" . h(strtoupper($item['location_name'])) . ")"; ?>"><?php echo h($item['email']); ?></a></td>
               <td><?php echo h(date('d-M-Y', strtotime($item['date_added']))); ?></td>
             </tr>
           </table>

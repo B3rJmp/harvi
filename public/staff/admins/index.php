@@ -43,7 +43,7 @@
             <!-- <td><?php //echo h($admin['admin_id']); ?></td> -->
             <td><?php echo h(ucfirst($admin['viewer_type'])); ?></td>
             <td><?php echo h($admin['first_name']) . " " . h($admin['last_name']); ?></td>
-      	    <td><?php echo h($admin['email']); ?></td>
+      	    <td><a href="mailto:<?php echo h($admin['email']); ?>"><?php echo h($admin['email']); ?></a></td>
             <td><?php echo h($admin['username']); ?></td>
             <td><a class="action" href="<?php echo url_for('/staff/admins/show.php?id=' . h(u($admin['admin_id']))); ?>">View</a></td>
             <?php if(is_admin()) { ?>
