@@ -14,13 +14,14 @@
 
   // Performs all actions necessary to log out an admin
   function log_out_admin() {
-    // unset($_SESSION['admin_id']);
-    // unset($_SESSION['name']);
-    // unset($_SESSION['last_login']);
-    // unset($_SESSION['username']);
-    // unset($_SESSION['type']);
-    // unset($_SESSION['super_admin']);
-    session_destroy(); // optional: destroys the whole session
+    unset($_SESSION['admin_id']);
+    unset($_SESSION['name']);
+    unset($_SESSION['last_login']);
+    unset($_SESSION['username']);
+    unset($_SESSION['type']);
+    unset($_SESSION['super_admin']);
+    unset($_SESSION['LAST_ACTIVITY']);
+    // session_destroy(); // optional: destroys the whole session
     return true;
   }
 

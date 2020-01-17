@@ -30,7 +30,7 @@
   
   // session timeout in seconds
   // default is 15 minutes (900 seconds)
-  session_timeout(900);
+  session_timeout();
   $db = db_connect();
   $errors = [];
   require_once('audit.php');

@@ -16,9 +16,9 @@ $items = find_items_by_location($id);
 <div id="content">
 
   <?php //if(isset($msg) && $msg != '') { ?>
-    <a class="back-link" href="<?= url_for('/staff/locations/index.php') ?>">&laquo; Back</a>
+    <!-- <a class="back-link" href="<?php //echo url_for('/staff/index.php') ?>">&laquo; Back</a> -->
   <?php //}else{ ?>
-    <!-- <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a> -->
+    <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
   <?php //} ?>
 
   <div class="admin show">
@@ -27,7 +27,7 @@ $items = find_items_by_location($id);
 
     <div class="attributes">
       <div class="itemShow">
-        <div style="width: 33%;">
+        <div>
           <dl>
             <dt>Pallet Present</dt>
             <dd><?php echo $location['pallet'] ? "Yes" : "No"; ?></dd>

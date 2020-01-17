@@ -176,9 +176,10 @@
       }
       $a++;
     }
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=88\">NFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\">CFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\">SFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=88\">MEZANINE</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\">NFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\">CFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=91\">SFLOOR</a>";
 
     echo $page_link;
   }

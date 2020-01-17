@@ -11,7 +11,7 @@
 
 <html lang="en">
   <head>
-    <title>GBI - <?php echo h($page_title); ?></title>
+    <title>Harvi - <?php echo h($page_title); ?></title>
     <meta charset="utf-8">
     <!-- <meta http-equiv="refresh" content="3"> -->
     <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/staff.css'); ?>" />

@@ -98,6 +98,7 @@ table.list tr th {
   background: #a00;
   color: white;
   text-align: left;
+  font-size: 17px;
 }
 
 .home {
@@ -187,6 +188,7 @@ dd {
 
 .itemShow {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 
@@ -196,9 +198,10 @@ dd {
 
 .location {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  width: 67%;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .links {
