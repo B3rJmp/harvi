@@ -223,5 +223,21 @@
 
   }
 
+  function save_last_region() {
+    if(is_logged_in()){
+      if(isset($_GET['region'])) {
+        $region = $_GET['region'];
+        setcookie('last_region', $region, time() + 900, "/");
+      }else{
+        if(isset($_COOKIE['last_region'])){
+          $region = $_COOKIE['last_region'];
+          setcookie('last_region', $region, time() + 900, "/");
+        }else{
+
+        }
+      }
+    }
+  }
+
 
 ?>

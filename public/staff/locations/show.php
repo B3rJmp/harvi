@@ -14,12 +14,11 @@ $items = find_items_by_location($id);
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
-
-  <?php //if(isset($msg) && $msg != '') { ?>
-    <!-- <a class="back-link" href="<?php //echo url_for('/staff/index.php') ?>">&laquo; Back</a> -->
-  <?php //}else{ ?>
-    <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
-  <?php //} ?>
+  <?php if(isset($_COOKIE['last_region'])){ ?>
+    <a class="back-link" href="<?php echo url_for('/staff/index.php?region=' . h(u($_COOKIE['last_region']))); ?>">&laquo; Back</a>
+  <?php }else{ ?>
+    <a class="back-link" href="<?php echo url_for('/staff/index.php'); ?>">&laquo; Back</a>
+  <?php } ?>
 
   <div class="admin show">
 
