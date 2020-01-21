@@ -10,7 +10,7 @@
 
 ?>
 
-<?php $page_title = 'Admins'; ?>
+<?php $page_title = 'Users'; ?>
 <?php $class = 'admins'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 

@@ -19,8 +19,8 @@
 
     <div class="actions">
       <a class="action" href="<?php echo url_for('/staff/new.php'); ?>">Add Item</a>
-      <a class="action" href="<?php echo url_for('/staff/my_items.php'); ?>">View My Items</a>
-      <a class="action" href="<?php echo url_for('/staff/locations/index.php'); ?>">View All Locations</a>
+      <a class="action" href="<?php echo url_for('/staff/list_items.php'); ?>">View All Items</a>
+      <a class="action" href="<?php echo url_for('/staff/index.php'); ?>">View All Locations</a>
     </div>
 
   	<table class="list">
