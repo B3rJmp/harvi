@@ -18,12 +18,7 @@ $table = "content";
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
-
-  <?php //if(has_presence($msg)) { ?>
-    <!-- <a class="back-link" href="<?php //echo url_for('/staff/locations/show.php?id=' . $item['location']); ?>">&laquo; Back</a> -->
-  <?php //}else{ ?>
-    <a class="back-link" href="javascript:history.go(-1)">&laquo; Back</a>
-  <?php //} ?>
+  <a class="back-link" href="<?php echo url_for('/staff/locations/show.php?id=' . h(u($item['location']))); ?>">&laquo; Back</a>
 
   <div class="bigdiv">
 

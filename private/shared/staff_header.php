@@ -24,7 +24,7 @@
     <?php if(is_logged_in()) { ?>
       <navigation>
         <ul>
-          <li>User: <?php echo $_SESSION['name'] ?? ''; ?></li>
+          <li>User: <?php echo h($_SESSION['name'] ?? ''); ?></li>
           <li><a href="<?php echo url_for('/staff/index.php'); ?>">Warehouse</a></li>
           <li><a href="<?php echo url_for('/staff/admins/edit_profile.php'); ?>">Edit Profile</a></li>
           <?php if($type == 1) { ?>

@@ -146,7 +146,7 @@
       return $errors;
     }
 
-    $hashed_password = password_hash('P@55word', PASSWORD_BCRYPT);
+    $hashed_password = password_hash(DEFAULT_PASS, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO people ";
     $sql .= "(first_name, last_name, type, email, username, hashed_password) ";
@@ -207,8 +207,24 @@
     unset($_SESSION['super_admin']);
   }
 
+  function change_owner($id) {
+    global $db;
+
+    $sql = "update content set owner_id = 0 ";
+    $sql .= "where owner_id = " . db_escape($db, $id);
+    $result = mysqli_query($db, $sql);
+
+    if($result) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   function delete_admin($id){
     global $db;
+
+    change_owner($id);
 
     $sql = "DELETE FROM people ";
     $sql .= "WHERE admin_id='" . db_escape($db, $id) . "' ";
