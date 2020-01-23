@@ -5,15 +5,15 @@
     // script will gather information on all items in the warehouse that have been there for longer than a specified time
     // once all information is gathered, the script will separate items by owner
     // script will then send a single email to each owner, containing all the expired items belonging to that owner
-    // script will also send an email to the managers regarding the items with no defined owner
+    // script will also send an email to the admins regarding the items with no defined owner
     // this script will only run once on the first monday of each month.
     // Thane Stevens
 
-    // get all managers
-    function get_managers() {
+    // get all admins
+    function get_admins() {
         global $db;
 
-        $sql = "select * from people where type = 2";
+        $sql = "select * from people where type = 1";
         $result = mysqli_query($db, $sql);
         return $result;
     }
@@ -45,21 +45,20 @@
 
             // sort items by owner, send individual email to each owner with all their items in it
             foreach($owners as $owner){
-                // for all items with no defined owner, email managers
+                // for all items with no defined owner, email admins
                 $items = audit_items($owner['admin_id'], $interval);
                 
                 if($owner['admin_id'] == 0) {
                     $to = '';
-                    $managers = get_managers();
-                    // send to each manager
-                    foreach($managers as $manager){
-                        $to .= $manager['email'] . ", ";
+                    $admins = get_admins();
+                    // send to each admin
+                    foreach($admins as $admin){
+                        $to .= $admin['email'] . ", ";
                     }
-                    $to .= "thane.stevens2@thermofisher.com";
                     $subject = "Warehouse Audit";
-                    $headers = "From: manager.harvi@gmail.com\r\n";
+                    $headers = "From: admin.harvi@gmail.com\r\n";
                     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-                    $message = "Hey Managers, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
+                    $message = "Hey Admins, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
                     $message .= "<ul>";
                     foreach($items as $item){
                         $message .= "<li>";
