@@ -1,4 +1,5 @@
 <?php
+
   function list_all_admins($limit){
     global $db;
     $page = $_GET['page'] ?? 1;

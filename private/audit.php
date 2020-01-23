@@ -1,13 +1,13 @@
 <?php 
     // require_once('../../private/initialize.php');
     
-    // The idea of this script is to automate the warehouse audit
-    // script will gather information on all items in the warehouse that have been there for longer than a specified time
-    // once all information is gathered, the script will separate items by owner
-    // script will then send a single email to each owner, containing all the expired items belonging to that owner
-    // script will also send an email to the admins regarding the items with no defined owner
-    // this script will only run once on the first monday of each month.
-    // Thane Stevens
+    // * The idea of this script is to automate the warehouse audit
+    // * script will gather information on all items in the warehouse that have been there for longer than a specified time
+    // * once all information is gathered, the script will separate items by owner
+    // * script will then send a single email to each owner, containing all the expired items belonging to that owner
+    // * script will also send an email to the admins regarding the items with no defined owner
+    // * this script will only run once on the first monday of each month.
+    // * Thane Stevens
 
     // get all admins
     function get_admins() {
