@@ -18,7 +18,7 @@ if(is_post_request()) {
   $admin['email'] = $_POST['email'] ?? '';
   $admin['permission'] = $_POST['permission']==NULL || $_POST['permission']=="" ? 3 : $_POST['permission'];
   $admin['username'] = $_POST['username'] ?? '';
-  $admin['password'] = $_POST['password'] ?? DEFAULT_PASS;
+  $admin['password'] = DEFAULT_PASS;
   $admin['password_confirm'] = DEFAULT_PASS;
 
   $result = insert_admin($admin);

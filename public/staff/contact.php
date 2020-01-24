@@ -26,13 +26,47 @@
     }
 
     if(is_post_request()){
-        $to = $_POST['owner'];
-        $subject = $_POST['subject'];
-        $message = $_POST['message'];
+        $to = (string) $_POST['owner'];
+        $subject = (string) $_POST['subject'];
+        $message = (string) $_POST['message'];
         $headers = "From: " . h($from) . "\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-        mail($to, $subject, $message, $headers);
+        // if(!$to || !$subject || !$message) {
+        //   $errors[] = "Please fill out all fields";
+        // }
+
+        if(is_blank($to)) {
+          $errors[] = "Please enter a recipient.";
+        }elseif(!has_valid_email_format($to)) {
+          $errors[] = "Recipient must have a valid email";
+        }
+
+        if(is_blank($subject)) {
+          $errors[] = "Please include a subject.";
+        }
+
+        if(is_blank($message)) {
+          $errors[] = "Please type a message.";
+        }
+
+        if(!has_valid_email_format($from)) {
+          $errors[] = "Something went wrong with your email, please review and try again.";
+        }
+
+        if(isset($errors)) {
+          
+
+        }else{
+          $mail = mail($to, $subject, $message, $headers);
+          // if($mail === true) {
+            $_SESSION['message'] = "Email Successfully Sent";
+            redirect_to(url_for('/staff/index.php'));
+          // }else{
+          //   $_SESSION['message'] = "Something went wrong";
+          // }
+        }
+
     }
 
 ?>
