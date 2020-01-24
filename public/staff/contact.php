@@ -1,5 +1,7 @@
 <?php 
     require_once('../../private/initialize.php');
+    require_login();
+    require_manager();
 
     // get email of user
     $sql = "select email from people where admin_id = " . db_escape($db, $_SESSION['admin_id']);
@@ -12,8 +14,6 @@
         $sql = "select * from people where admin_id = " . db_escape($db, $_GET['owner']);
         $result = mysqli_query($db, $sql);
         $owner = mysqli_fetch_assoc($result);
-    }else{
-
     }
 
     // get info for item
@@ -21,8 +21,6 @@
         $sql = "select * from content where id = " . db_escape($db, $_GET['item']);
         $result = mysqli_query($db, $sql);
         $item = mysqli_fetch_assoc($result);
-    }else{
-
     }
 
     if(is_post_request()){
@@ -58,19 +56,16 @@
           $errors[] = "Something went wrong with your email, please review and try again.";
         }
 
-        if(isset($errors)) {
-          
+        if(!empty($errors)) {
+
         }else{
-          // FIXME: broken mail
-          // Something wrong with this script
-          // will not process, wait to connect to internet to try it out
           $mail = mail($to, $subject, $message, $headers);
-          // if($mail === true) {
+          if($mail === true) {
             $_SESSION['message'] = "Email Successfully Sent";
             redirect_to(url_for('/staff/index.php'));
-          // }else{
-          //   $_SESSION['message'] = "Something went wrong";
-          // }
+          }else{
+            $_SESSION['message'] = "Something went wrong";
+          }
         }
 
     }
