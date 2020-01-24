@@ -56,8 +56,10 @@
 
         if(isset($errors)) {
           
-
         }else{
+          // FIXME: broken mail
+          // Something wrong with this script
+          // will not process, wait to connect to internet to try it out
           $mail = mail($to, $subject, $message, $headers);
           // if($mail === true) {
             $_SESSION['message'] = "Email Successfully Sent";
