@@ -36,6 +36,10 @@
         //   $errors[] = "Please fill out all fields";
         // }
 
+        if(preg_match("/[\r\n]/", $to) || preg_match("/[\r\n]/", $from) || preg_match("/[\r\n]/", $subject)) {
+          die();
+        }
+
         if(is_blank($to)) {
           $errors[] = "Please enter a recipient.";
         }elseif(!has_valid_email_format($to)) {
