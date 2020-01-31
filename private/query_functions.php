@@ -23,7 +23,7 @@
     $sql .= "JOIN ";
     $sql .= "view_type on people.type = view_type.type_id ";
     $sql .= "where admin_id >= 1 ";
-    $sql .= "ORDER BY last_name asc ";
+    $sql .= "ORDER BY type desc, last_name asc ";
     // $sql .= "limit " .  . " offset " .  ;
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -139,6 +139,40 @@
     return $errors;
   }
 
+  // when creating a new user, that user is sent an email with their credentials
+  function email_new_user($admin, $insert = false) {
+    if($admin['type'] == 1) {
+      $type = 'an Admin';
+      $type_msg = "As an Admin, you will have permission to manage other users, as well as manage the warehouse on behalf of managers and engineers.";
+    }elseif($admin['type'] == 2) {
+      $type = 'a Manager';
+      $type_msg = "As a Manager, you will be responsible to help manage the warehouse on behalf of engineers, as well as assign items in the warehouse to particular owners, and edit information on those items.";
+    }else{
+      $type = 'an Engineer';
+      $type_msg = "You can now access Harvi to view items in the warehouse. You are responsible for everything you add and remove from the warehouse. If you need to add or remove something from the warehouse that does not belong to you, please contact one of the lab technicians.";
+    }
+    $to = $admin['email'];
+    $subject = "Welcome to Harvi";
+    $message = "You've been added to Harvi by " . h($_SESSION['name']) . " as " . h($type) . ".\r\n";
+    $message .= $type_msg . "\r\n";
+    if($insert == true) {
+      $message .= "Your username will be " . $admin['username'] . ".\r\n";
+      $message .= "Your default password has been set to " . h(DEFAULT_PASS) . ". For security reasons, we suggest you change this as soon as you log in for the first time.\r\n";
+    }else{
+      
+    }
+    $headers = "From: manager.harvi@gmail.com\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $mail = mail($to, $subject, $message, $headers);
+    if($mail === true) {
+      // $_SESSION['message'] = "Email Successfully Sent";
+      return true;
+    }else{
+      // $_SESSION['message'] = "Something went wrong when sending the email";
+      return false;
+    }
+  }
+
   function insert_admin($admin){
     global $db;
 
@@ -162,6 +196,7 @@
     $result = mysqli_query($db, $sql);
     // For INSERT statements, $result is true/false
     if($result) {
+      email_new_user($admin, true);
       return true;
     } else {
       // INSERT failed
@@ -208,6 +243,7 @@
     unset($_SESSION['super_admin']);
   }
 
+  // when deleting a user, any items they may have had will be placed under undefined ownership
   function change_owner($id) {
     global $db;
 

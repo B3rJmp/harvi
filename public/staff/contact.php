@@ -23,10 +23,18 @@
         $item = mysqli_fetch_assoc($result);
     }
 
+    // get info for item's location
+    if(isset($_GET['item']) && is_numeric($_GET['item'])) {
+      $sql = "select location_name from locations where location_id = " . db_escape($db, $item['location']);
+      $result = mysqli_query($db, $sql);
+      $location_arr = mysqli_fetch_assoc($result);
+      $location = strtoupper($location_arr['location_name']);
+    }
+
     if(is_post_request()){
-        $to = (string) $_POST['owner'];
-        $subject = (string) $_POST['subject'];
-        $message = (string) $_POST['message'];
+        $to = (string)$_POST['owner'];
+        $subject = (string)$_POST['subject'];
+        $message = (string)$_POST['message'];
         $headers = "From: " . h($from) . "\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
@@ -64,9 +72,21 @@
             $_SESSION['message'] = "Email Successfully Sent";
             redirect_to(url_for('/staff/index.php'));
           }else{
-            $_SESSION['message'] = "Something went wrong";
+            $_SESSION['message'] = "Something went wrong when sending the email";
           }
         }
+
+    }else{
+      $to = isset($_GET['owner']) ? $owner['email'] : "";
+      if(isset($_GET['item'])){
+        if(isset($item['work_order'])) {
+          $subject = $item['work_order'] . ", " . $item['description'] . " (" . $location . ")";
+        }else{
+          $subject = $item['description'] . " (" . $location . ")";
+        }
+      }else{
+        $subject = "";
+      }
 
     }
 
@@ -90,12 +110,12 @@
       <dl>
         <dt>Owner Email</dt>
         <dd>
-          <input type="email" name="owner" value="<?php echo isset($_GET['owner']) ? h($owner['email']) : ""; ?>">
+          <input type="email" name="owner" value="<?php echo h($to); ?>">
         </dd>
       </dl>
       <dl>
         <dt>Subject</dt>
-        <dd><input type="text" name="subject" value="<?php echo isset($_GET['item']) ? h($item['description']) : ""; ?>"></dd>
+        <dd><input type="text" name="subject" value="<?php echo h($subject); ?>"></dd>
       </dl>
       <dl>
         <dt>Message</dt>

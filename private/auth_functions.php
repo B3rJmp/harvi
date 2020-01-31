@@ -2,11 +2,11 @@
 
   // Performs all actions necessary to log in an admin
   function log_in_admin($admin) {
-  // Renerating the ID protects the admin from session fixation.
+  // Regenerating the ID protects the admin from session fixation.
     session_regenerate_id();
     $_SESSION['admin_id'] = $admin['admin_id'];
     $_SESSION['name'] = $admin['first_name'] . " " . $admin['last_name'];
-    $_SESSION['type'] = $admin['type'];
+    $_SESSION['type'] = (int)$admin['type'];
     $_SESSION['last_login'] = time();
     $_SESSION['username'] = $admin['username'];
     return true;
@@ -40,7 +40,7 @@
   }
 
   function get_viewer_type() {
-    return $_SESSION['type'];
+    return (int)$_SESSION['type'];
   }
 
   // Call require_login() at the top of any page which needs to
@@ -66,7 +66,7 @@
 
   function require_manager() {
     $type = get_viewer_type();
-    if($type == 1 || $type == 2) {
+    if($type === 1 || $type === 2) {
       return true;
     }else{
       redirect_to(url_for('/staff/error.php'));
@@ -86,7 +86,7 @@
 
   function is_manager() {
     $type = get_viewer_type();
-    if($type == 1 || $type == 2) {
+    if($type === 1 || $type === 2) {
       return true;
     }else{
       return false;
@@ -94,7 +94,7 @@
   }
 
   function require_user($item) {
-    if($_SESSION['admin_id'] == $item['owner_id'] || is_manager()) {
+    if((int)$_SESSION['admin_id'] === (int)$item['owner_id'] || is_manager()) {
       return true;
       // continue
     }else{

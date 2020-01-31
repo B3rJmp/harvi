@@ -56,7 +56,7 @@
                         $to .= $admin['email'] . ", ";
                     }
                     $subject = "Warehouse Audit";
-                    $headers = "From: admin.harvi@gmail.com\r\n";
+                    $headers = "From: manager.harvi@gmail.com\r\n";
                     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
                     $message = "Hey Admins, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
                     $message .= "<ul>";

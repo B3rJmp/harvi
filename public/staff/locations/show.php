@@ -46,8 +46,8 @@ $items = find_items_by_location($id);
         <div class="action_links">
           <?php if(is_manager()) { ?>
             <a href="<?= url_for('/staff/locations/edit.php?id=' . h(u($location['location_id']))); ?>">Edit Location</a>
-            <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
           <?php } ?>
+          <a href="<?= url_for('/staff/new.php?location=' . h(u($location['location_id']))); ?>">Add Item to <?= strtoupper($location['location_name']); ?></a>
           <?php page_links('locations'); ?>
         </div>
 
