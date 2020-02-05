@@ -140,7 +140,7 @@
   }
 
   // when creating a new user, that user is sent an email with their credentials
-  function email_new_user($admin, $insert = false) {
+  function email_new_user($admin, $insert = false, $temp_pass) {
     if($admin['type'] == 1) {
       $type = 'an Admin';
       $type_msg = "As an Admin, you will have permission to manage other users, as well as manage the warehouse on behalf of managers and engineers.";
@@ -157,14 +157,14 @@
     $message .= $type_msg . "\r\n";
     if($insert == true) {
       $message .= "Your username will be " . $admin['username'] . ".\r\n";
-      $message .= "Your default password has been set to " . h(DEFAULT_PASS) . ". For security reasons, we suggest you change this as soon as you log in for the first time.\r\n";
+      $message .= "Your default password has been set to " . h($temp_pass) . ". For security reasons, we suggest you change this as soon as you log in for the first time.\r\n";
     }else{
       
     }
     $headers = "From: manager.harvi@gmail.com\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $mail = mail($to, $subject, $message, $headers);
-    if($mail === true) {
+    if($mail) {
       // $_SESSION['message'] = "Email Successfully Sent";
       return true;
     }else{
@@ -180,8 +180,8 @@
     if(!empty($errors)) {
       return $errors;
     }
-
-    $hashed_password = password_hash(DEFAULT_PASS, PASSWORD_BCRYPT);
+    $rand_pass = substr(str_shuffle(MD5(microtime())), 0, 15);
+    $hashed_password = password_hash($rand_pass, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO people ";
     $sql .= "(first_name, last_name, type, email, username, hashed_password) ";
@@ -196,7 +196,7 @@
     $result = mysqli_query($db, $sql);
     // For INSERT statements, $result is true/false
     if($result) {
-      email_new_user($admin, true);
+      email_new_user($admin, true, $rand_pass);
       return true;
     } else {
       // INSERT failed
