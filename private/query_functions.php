@@ -157,7 +157,7 @@
     $message .= $type_msg . "\r\n";
     if($insert == true) {
       $message .= "Your username will be " . $admin['username'] . ".\r\n";
-      $message .= "Your default password has been set to " . h($temp_pass) . ". For security reasons, we suggest you change this as soon as you log in for the first time.\r\n";
+      $message .= "Your temporary password has been set to " . h($temp_pass) . ". For security reasons, we suggest you change this as soon as you log in for the first time.\r\n";
     }else{
       
     }
