@@ -1,5 +1,5 @@
 <footer class="<?php echo $class ?? 'home'; ?>">
-  <?php echo date('Y'); ?> Harvi 1.5.3
+  Harvi 1.5.3
 </footer>
 
 </body>
