@@ -23,6 +23,7 @@
     $first_monday = date('Y-m-d', strtotime("first monday of this month"));
     // get date of last audit
     $last_audit = last_audit();
+    $last_month = strtotime("-1 month");
     // get audit status
     if($today == $last_audit){
         $complete = true;
@@ -34,79 +35,88 @@
     $interval = 3;
 
     // execute script
-    if($today==$first_monday){
+    if($today==$first_monday || $last_audit <= strtotime($last_month)){
         // if audit has not been performed yet
         if(!$complete){
 
             // add audit to audit count
             audit_count_up($interval);
-            // find all owners with items older than time limit
-            $owners = audit_owners($interval);
 
-            // sort items by owner, send individual email to each owner with all their items in it
-            foreach($owners as $owner){
-                // for all items with no defined owner, email admins
-                $items = audit_items($owner['admin_id'], $interval);
+            // * all email scripts commented out until connected to internet.
+            // * Script will still mark up audit count on items.
+            // * Uncomment when approval is given for email audits
+            // * Begin Comment here:
+
+            // // find all owners with items older than time limit
+            // $owners = audit_owners($interval);
+
+            // // sort items by owner, send individual email to each owner with all their items in it
+            // foreach($owners as $owner){
+            //     // for all items with no defined owner, email admins
+            //     $items = audit_items($owner['admin_id'], $interval);
                 
-                if($owner['admin_id'] == 0) {
-                    $to = '';
-                    $admins = get_admins();
-                    // send to each admin
-                    foreach($admins as $admin){
-                        $to .= $admin['email'] . ", ";
-                    }
-                    $subject = "Warehouse Audit";
-                    $headers = "From: manager.harvi@gmail.com\r\n";
-                    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-                    $message = "Hey Admins, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
-                    $message .= "<ul>";
-                    foreach($items as $item){
-                        $message .= "<li>";
-                        if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
-                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
-                        if($item['audit_number'] >= 3) {
-                            $message .= " <strong style='color: red;'>Final Notice</strong>";
-                        }
-                        $message .= "</li>";
-                    }
-                    $message .= "</ul>";
-                    $message .= "If you could help us track down the owners, that would be a great help. Thanks!!<br>";
-                    $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
-                    if(isset($to) && $to != NULL && $to != ''){
-                        if(!empty($items)){
-                            $mail = mail($to, $subject, $message, $headers);
-                            // echo $message;
-                        }
-                    }
-                }else{ // if item has a definitive owner, send email to that specific owner
-                    $to = $owner['email'];
-                    $subject = "Warehouse Audit";
-                    $headers = "From: manager.harvi@gmail.com\r\n";
-                    $headers .= "CC: thane.stevens2@thermofisher.com\r\n";
-                    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-                    $message = "Hey " . ucfirst($owner['first_name']) . ", we found some items in the warehouse that have been there a while, we were wondering what you want to do with them: <br>";
-                    $message .= "<ul>";
-                    foreach($items as $item){
-                        $message .= "<li>";
-                        if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
-                        $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
-                        if($item['audit_number'] >= 3) {
-                            $message .= " <strong style='color: red;'>Final Notice</strong>";
-                        }
-                        $message .= "</li>";
+            //     if($owner['admin_id'] == 0) {
+            //         $to = '';
+            //         $admins = get_admins();
+            //         // send to each admin
+            //         foreach($admins as $admin){
+            //             $to .= $admin['email'] . ", ";
+            //         }
+            //         $subject = "Warehouse Audit";
+            //         $headers = "From: manager.harvi@gmail.com\r\n";
+            //         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            //         $message = "Hey Admins, we found some items in the warehouse that have been there a while, and we don't know who they belong to: <br>";
+            //         $message .= "<ul>";
+            //         foreach($items as $item){
+            //             $message .= "<li>";
+            //             if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
+            //             $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
+            //             if($item['audit_number'] >= 3) {
+            //                 $message .= " <strong style='color: red;'>Final Notice</strong>";
+            //             }
+            //             $message .= "</li>";
+            //         }
+            //         $message .= "</ul>";
+            //         $message .= "If you could help us track down the owners, that would be a great help. Thanks!!<br>";
+            //         $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
+            //         if(isset($to) && $to != NULL && $to != ''){
+            //             if(!empty($items)){
+            //                 $mail = mail($to, $subject, $message, $headers);
+            //                 // echo $message;
+            //             }
+            //         }
+            //     }else{ // if item has a definitive owner, send email to that specific owner
+            //         $to = $owner['email'];
+            //         $subject = "Warehouse Audit";
+            //         $headers = "From: manager.harvi@gmail.com\r\n";
+            //         $headers .= "CC: thane.stevens2@thermofisher.com\r\n";
+            //         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            //         $message = "Hey " . ucfirst($owner['first_name']) . ", we found some items in the warehouse that have been there a while, we were wondering what you want to do with them: <br>";
+            //         $message .= "<ul>";
+            //         foreach($items as $item){
+            //             $message .= "<li>";
+            //             if(isset($item['work_order'])){$message .= $item['work_order'] . ", ";}
+            //             $message .= $item['description'] . ", (" . strtoupper($item['location_name']) . ")";
+            //             if($item['audit_number'] >= 3) {
+            //                 $message .= " <strong style='color: red;'>Final Notice</strong>";
+            //             }
+            //             $message .= "</li>";
 
-                    }
-                    $message .= "</ul>";
-                    $message .= "In any case, come and find me if you have any questions, thanks!!<br>";
-                    $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
-                    if(isset($to) && $to != NULL && $to != ''){
-                        if(!empty($items)){
-                            $mail = mail($to, $subject, $message, $headers);
-                            // echo $message;
-                        }
-                    }
-                }
-            }
+            //         }
+            //         $message .= "</ul>";
+            //         $message .= "In any case, come and find me if you have any questions, thanks!!<br>";
+            //         $message .= "<em>&ast; Items marked <strong style='color: red;'>Final Notice</strong> have been in the warehouse for 5 months or more</em><br>";
+            //         if(isset($to) && $to != NULL && $to != ''){
+            //             if(!empty($items)){
+            //                 $mail = mail($to, $subject, $message, $headers);
+            //                 // echo $message;
+            //             }
+            //         }
+            //     }
+            // }
+
+            // * End Comment here
+
             // audit is complete, only do once on the first monday of each month
             
             // count how many items were audited
