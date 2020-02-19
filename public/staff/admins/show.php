@@ -40,7 +40,7 @@ $items = find_items_by_owner($id);
       </dl>
       <dl>
         <dt>Email</dt>
-        <dd><a href="mailto:<?php echo h($admin['email']); ?>"><?php echo h($admin['email']); ?></a></dd>
+        <dd><?php echo h($admin['email']); ?></dd>
       </dl>
       <dl>
         <dt>Username</dt>
