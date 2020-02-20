@@ -9,6 +9,7 @@
     $_SESSION['type'] = (int)$admin['type'];
     $_SESSION['last_login'] = time();
     $_SESSION['username'] = $admin['username'];
+    expired_notifications();
     return true;
   }
 

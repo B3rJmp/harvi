@@ -29,6 +29,9 @@
         <a class="action" href="<?php echo url_for('/staff/new.php'); ?>">Add Item</a>
         <a class="action" href="<?php echo url_for('/staff/my_items.php'); ?>">View My Items</a>
         <a class="action" href="<?php echo url_for('/staff/list_items.php'); ?>">View All Items</a>
+        <?php if(is_manager()) { ?>
+          <a class="action" href="<?php echo url_for('/staff/audit_list.php'); ?>">Expired Items</a>
+        <?php } ?>
       </div>
       <div class="search">
         <form action="<?php echo url_for('/staff/search.php'); ?>" method="post">
