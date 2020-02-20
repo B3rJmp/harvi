@@ -139,7 +139,8 @@
     return $errors;
   }
 
-  // when creating a new user, that user is sent an email with their credentials
+  // * when creating a new user, that user is sent an email with their credentials
+  // * only usable when email capabilities have been restored
   function email_new_user($admin, $insert = false, $temp_pass) {
     if($admin['type'] == 1) {
       $type = 'an Admin';
@@ -180,8 +181,11 @@
     if(!empty($errors)) {
       return $errors;
     }
-    $rand_pass = substr(str_shuffle(MD5(microtime())), 0, 15);
-    $hashed_password = password_hash($rand_pass, PASSWORD_BCRYPT);
+    // * disabled random password generator
+    // * uncomment when email capabilities are restored
+    // $rand_pass = substr(str_shuffle(MD5(microtime())), 0, 15);
+    // $hashed_password = password_hash($rand_pass, PASSWORD_BCRYPT);
+    $hashed_password = password_hash(DEFAULT_PASS, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO people ";
     $sql .= "(first_name, last_name, type, email, username, hashed_password) ";
@@ -196,7 +200,9 @@
     $result = mysqli_query($db, $sql);
     // For INSERT statements, $result is true/false
     if($result) {
-      email_new_user($admin, true, $rand_pass);
+      // * disable new user notification
+      // * uncomment when email capabilities are restored
+      // email_new_user($admin, true, $rand_pass);
       return true;
     } else {
       // INSERT failed
@@ -243,7 +249,7 @@
     unset($_SESSION['super_admin']);
   }
 
-  // when deleting a user, any items they may have had will be placed under undefined ownership
+  // * when deleting a user, any items they may have had will be placed under undefined ownership
   function change_owner($id) {
     global $db;
 

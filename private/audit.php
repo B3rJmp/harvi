@@ -9,7 +9,7 @@
     // * this script will only run once on the first monday of each month.
     // * Thane Stevens
 
-    // get all admins
+    // * get all admins
     function get_admins() {
         global $db;
 
@@ -18,47 +18,48 @@
         return $result;
     }
 
-    // get current date and first Monday of current month
+    // * get current date and first Monday of current month
     $today = date('Y-m-d');
     $first_monday = date('Y-m-d', strtotime("first monday of this month"));
-    // get date of last audit
+    // * get date of last audit
     $last_audit = last_audit();
     $last_month = strtotime("-1 month");
-    // get audit status
+    // * get audit status
     if($today == $last_audit){
         $complete = true;
     }else{
         $complete = false;
     }
-    // set expiration date in months
-    // ex. if searching for items older than 6 months, $interval = 6;
+    // * set expiration date in months
+    // * ex. if searching for items older than 6 months, $interval = 6;
     $interval = 3;
 
-    // execute script
+    // * execute script
     if($today==$first_monday || $last_audit <= strtotime($last_month)){
-        // if audit has not been performed yet
+        // * if audit has not been performed yet
         if(!$complete){
 
-            // add audit to audit count
+            //* add audit to audit count
             audit_count_up($interval);
 
-            // * all email scripts commented out until connected to internet.
-            // * Script will still mark up audit count on items.
+            // * all email scripts commented out until email capabilities are restored
+            // * Script will still mark up audit count on items
             // * Uncomment when approval is given for email audits
+
             // * Begin Comment here:
 
-            // // find all owners with items older than time limit
+            // // * find all owners with items older than time limit
             // $owners = audit_owners($interval);
 
-            // // sort items by owner, send individual email to each owner with all their items in it
+            // // * sort items by owner, send individual email to each owner with all their items in it
             // foreach($owners as $owner){
-            //     // for all items with no defined owner, email admins
+            //     // * for all items with no defined owner, email admins
             //     $items = audit_items($owner['admin_id'], $interval);
                 
             //     if($owner['admin_id'] == 0) {
             //         $to = '';
             //         $admins = get_admins();
-            //         // send to each admin
+            //         // * send to each admin
             //         foreach($admins as $admin){
             //             $to .= $admin['email'] . ", ";
             //         }
@@ -82,10 +83,10 @@
             //         if(isset($to) && $to != NULL && $to != ''){
             //             if(!empty($items)){
             //                 $mail = mail($to, $subject, $message, $headers);
-            //                 // echo $message;
+            //                 // * echo $message;
             //             }
             //         }
-            //     }else{ // if item has a definitive owner, send email to that specific owner
+            //     }else{ // * if item has a definitive owner, send email to that specific owner
             //         $to = $owner['email'];
             //         $subject = "Warehouse Audit";
             //         $headers = "From: manager.harvi@gmail.com\r\n";
@@ -117,18 +118,18 @@
 
             // * End Comment here
 
-            // audit is complete, only do once on the first monday of each month
+            // * audit is complete, only do once on the first monday of each month
             
-            // count how many items were audited
+            // * count how many items were audited
             $count = count_audit();
-            // log the date of the last audit, and the quantity of items audited
+            // * log the date of the last audit, and the quantity of items audited
             new_audit($today, $count);
         }else{
-            // if audit has already been completed, display complete message
+            // * if audit has already been completed, display complete message
             $_SESSION['message'] = "Audit has been performed.";
         }
     }else{
-        // on any day that is not the first monday of the month, the script will not execute
+        // * on any day that is not the first monday of the month, the script will not execute
     }
     
 
