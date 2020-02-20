@@ -722,7 +722,7 @@
     $row = mysqli_fetch_row($result);
     $count = $row[0];
     if(isset($count) && $count > 0 && $count != '') {
-      $_SESSION['message'] = "You currently have " . $count . " expired items. Please check your items to review.";
+      $_SESSION['message'] = "You currently have " . $count . " expired items. Please review your items.";
     }else{
       return false;
     }
