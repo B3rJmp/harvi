@@ -1,10 +1,9 @@
 <?php 
-    require_once('../../private/initialize.php');
-    
     // * email capabilities must be restored to work properly
     // * delete redirect when email capabilities are restored
-    redirect_to(url_for('index.php'));
-
+    header("Location: /staff/");
+     
+    require_once('../../private/initialize.php');
     require_login();
     require_manager();
 
