@@ -680,7 +680,7 @@
     $sql .= "people on content.owner_id = people.admin_id ";
     $sql .= "JOIN ";
     $sql .= "locations on content.location = locations.location_id ";
-    $sql .= "where owner_id != 1 and date_added <= now()-interval 3 month ";
+    $sql .= "where owner_id != 1 and audit_number > 0 ";
     $sql .= "order by location_name asc ";
     $result = mysqli_query($db, $sql);
     confirm_result_set($result);
@@ -717,12 +717,16 @@
 
     $sql = "select count(*) from content ";
     $sql .= "where owner_id = " . $_SESSION['admin_id'] . " ";
-    $sql .= "and date_added <= now()-interval 3 month ";
+    $sql .= "and audit_number > 0";
     $result = mysqli_query($db, $sql);
     $row = mysqli_fetch_row($result);
     $count = $row[0];
     if(isset($count) && $count > 0 && $count != '') {
-      $_SESSION['message'] = "You currently have " . $count . " expired items. Please review your items.";
+      if($count == 1) {
+        $_SESSION['message'] = "You currently have " . $count . " expired item. Please review your items.";
+      }else{
+        $_SESSION['message'] = "You currently have " . $count . " expired items. Please review your items.";
+      }
     }else{
       return false;
     }
