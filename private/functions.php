@@ -136,16 +136,16 @@
       if($i == $current_page) {
         $page_link .= "<span class=\"selected\">{$i}</span>";
       }else{
-        $page_link .= "<a href=\"{$url}?page={$i}\">{$i}</a>";
+        $page_link .= "<a href=\"{$url}?page={$i}\" class=\"pagination\">{$i}</a>";
       }
     }
     $back_link = "";
     $next_link = "";
     if(($current_page - 1) > 0){
-      $back_link .= "<a href=\"{$url}?page=" . ($current_page - 1) . "\">&laquo; Back</a>";
+      $back_link .= "<a href=\"{$url}?page=" . ($current_page - 1) . "\" class=\"pagination\">&laquo; Back</a>";
     }
     if(($current_page + 1) <= $pages) {
-      $next_link .= "<a href=\"{$url}?page=" . ($current_page + 1) . "\">Next &raquo;</a>";
+      $next_link .= "<a href=\"{$url}?page=" . ($current_page + 1) . "\" class=\"pagination\">Next &raquo;</a>";
     }
 
     if($page_count > $limit) {
@@ -172,14 +172,14 @@
       if($i == $region) {
         $page_link .= "<span class=\"selected\">" . h(strtoupper($a)) . "</span>";
       }else{
-        $page_link .= "<a href=\"{$url}?region=" . h(u($a)) . "\">" . h(strtoupper($a)) . "</a>";
+        $page_link .= "<a href=\"{$url}?region=" . h(u($a)) . "\" class=\"pagination\">" . h(strtoupper($a)) . "</a>";
       }
       $a++;
     }
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=88\">MEZZANINE</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\">NFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\">CFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=91\">SFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=88\" class=\"pagination\">MEZZANINE</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\" class=\"pagination\">NFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\" class=\"pagination\">CFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=91\" class=\"pagination\">SFLOOR</a>";
 
     echo $page_link;
   }

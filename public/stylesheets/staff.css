@@ -1,6 +1,7 @@
 html {
   height: 100%;
   width: 100%;
+  font-size: 20px;
 }
 
 body {
@@ -11,7 +12,7 @@ body {
 }
 
 header {
-  width: 1080px;
+  width: 980px;
   height: 40px;
   margin: 0 0 10px 0;
   padding: 0;
@@ -28,14 +29,14 @@ header h1 {
 }
 
 navigation {
-  width: 1080px;
+  width: 980px;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 navigation ul {
-  width: 1080px;
+  width: 980px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -51,13 +52,13 @@ a {
 }
 
 #content {
-  width: 1020px;
+  width: 920px;
   min-height: 500px;
   padding: 0 30px;
 }
 
 footer {
-  width: 1040px;
+  width: 940px;
   height: 20px;
   margin: 0 0 10px 0;
   padding: 10px 20px;
@@ -231,4 +232,8 @@ dd {
 .final_notice, .final_notice a {
   background-color: red;
   color: white;
+}
+
+.pagination {
+  font-size: 16px !important;
 }
