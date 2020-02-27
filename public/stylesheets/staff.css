@@ -232,3 +232,7 @@ dd {
   background-color: red;
   color: white;
 }
+
+.fake_class {
+  border: none;
+}
