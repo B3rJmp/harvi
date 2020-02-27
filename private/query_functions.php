@@ -239,14 +239,15 @@
     $result = mysqli_query($db, $sql);
     // For UPDATE statements, $result is true/false
     if($result) {
+      unset($_SESSION['super_admin']);
       return true;
     } else {
       // UPDATE failed
+      unset($_SESSION['super_admin']);
       echo mysqli_error($db);
       db_disconnect($db);
       exit;
     }
-    unset($_SESSION['super_admin']);
   }
 
   // * when deleting a user, any items they may have had will be placed under undefined ownership

@@ -66,6 +66,7 @@ $table = "content";
     <?php //page_links($table); ?>
     <?php if(require_user($item)) { ?>
       <a href="<?= url_for('/staff/edit.php?id=' . h(u($item['id']))); ?>">Edit Item</a>
+      <a href="<?= url_for('/staff/delete.php?id=' . h(u($item['id']))); ?>">Delete Item</a>
     <?php } ?>
 
   </div>

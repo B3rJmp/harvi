@@ -78,7 +78,7 @@ if(is_post_request()) {
         <dd><input type="password" name="password_confirm" /></dd>
       </dl>
       <div id="operations">
-        <input type="submit" value="Edit Admin" />
+        <input type="submit" value="Save Changes" />
       </div>
     </form>
 

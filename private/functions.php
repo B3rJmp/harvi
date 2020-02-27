@@ -177,9 +177,9 @@
       $a++;
     }
     $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=88\" class=\"pagination\">MEZZANINE</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\" class=\"pagination\">NFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\" class=\"pagination\">CFLOOR</a>";
-    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=91\" class=\"pagination\">SFLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=89\" class=\"pagination\">N.FLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=90\" class=\"pagination\">C.FLOOR</a>";
+    $page_link .= "<a href=\"" . url_for('/staff/locations/show.php') . "?id=91\" class=\"pagination\">S.FLOOR</a>";
 
     echo $page_link;
   }

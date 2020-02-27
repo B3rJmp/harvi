@@ -21,10 +21,25 @@
             $password = $_POST['password'];
             if(password_verify($password, $user['hashed_password'])){
                 $_SESSION['super_admin'] = 1;
+                if(isset($_SESSION['verify_attempt'])) {
+                  unset($_SESSION['verify_attempt']);
+                }
                 redirect_to(url_for('/staff/admins/edit.php?id=' . h(u($id))));
             }else{
-                log_out_admin();
-                redirect_to(url_for('/staff/login.php'));
+                
+                if(isset($_SESSION['verify_attempt']) && $_SESSION['verify_attempt'] >= 2) {
+                  $_SESSION['message'] = "Too many attempts, please log in to try again.";
+                  log_out_admin();
+                  unset($_SESSION['verify_attempt']);
+                  redirect_to(url_for('/staff/login.php'));
+                }else{
+                  $errors[] = "Verification Failed";
+                  if(isset($_SESSION['verify_attempt'])) {
+                    $_SESSION['verify_attempt']++;
+                  }else{
+                    $_SESSION['verify_attempt'] = 1;
+                  }
+                }
             }
         }
     }
@@ -40,13 +55,16 @@
   <a class="back-link" href="<?php echo url_for('/staff/admins/edit.php?id=' . h(u($id))); ?>">&laquo; Back to List</a>
 
   <div class="admin delete">
-    <h1>Unlock Super Admin</h1>
+    <h1>Reset User Password</h1>
+
+    <?php echo display_errors($errors); ?>
+
     <p>Verify Admin Password</p>
 
     <form action="<?php echo url_for('/staff/admins/super.php?id=' . h(u($id))); ?>" method="post">
       <div id="operations">
         <input type="password" name="password">
-        <input type="submit" name="commit" value="Unlock" />
+        <input type="submit" name="commit" value="Continue" />
       </div>
     </form>
   </div>

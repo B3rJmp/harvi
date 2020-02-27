@@ -1,7 +1,7 @@
 html {
   height: 100%;
   width: 100%;
-  font-size: 20px;
+  font-size: 21px;
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 }
 
 header {
-  width: 980px;
+  width: 1040px;
   height: 40px;
   margin: 0 0 10px 0;
   padding: 0;
@@ -20,23 +20,31 @@ header {
   color: white;
 }
 
+input, select {
+  font-size: 21px;
+}
+
+option {
+  font-size: 14px;
+}
+
 header h1 {
   margin: 0;
   padding: 5px;
-  font-size: 20px;
+  font-size: 21px;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
 navigation {
-  width: 980px;
+  width: 1040px;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 navigation ul {
-  width: 980px;
+  width: 1040px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -52,13 +60,13 @@ a {
 }
 
 #content {
-  width: 920px;
+  width: 930px;
   min-height: 500px;
   padding: 0 30px;
 }
 
 footer {
-  width: 940px;
+  width: 1000px;
   height: 20px;
   margin: 0 0 10px 0;
   padding: 10px 20px;
