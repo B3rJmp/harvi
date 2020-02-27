@@ -34,6 +34,7 @@ if(is_post_request()) {
     $errors = $result;
     //var_dump($errors);
   }
+  // unset($_SESSION['super_admin']);
 
 } else {
 
@@ -92,15 +93,15 @@ mysqli_free_result($admin_set);
       <?php if(isset($_SESSION['super_admin'])) { ?>
         <dl>
           <dt>Password</dt>
-          <dd>Reset to default password</dd>
+          <dd>Set to "<?php echo DEFAULT_PASS; ?>". Click "Save Changes" to commit</dd>
         </dl>
       <?php }else{ ?>
         <?php if(is_admin()){ ?>
-          <a href="<?php echo url_for('/staff/admins/super.php?id=' . h(u($id)));  ?>">Unlock Super Admin</a>
+          <a href="<?php echo url_for('/staff/admins/super.php?id=' . h(u($id)));  ?>">Reset to Default Password</a>
         <?php } ?>
       <?php } ?>
       <div id="operations">
-        <input type="submit" value="Edit Admin" />
+        <input type="submit" value="Save Changes" />
       </div>
     </form>
 
