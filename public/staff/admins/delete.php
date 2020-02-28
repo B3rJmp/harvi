@@ -13,7 +13,7 @@ $id = $_GET['id'];
 if(is_post_request()) {
 
   $result = delete_admin($id);
-  $_SESSION['message'] = 'The admin was deleted.';
+  $_SESSION['message'] = 'The user was deleted.';
   redirect_to(url_for('/staff/admins/index.php'));
 
 } else {

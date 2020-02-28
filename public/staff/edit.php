@@ -120,7 +120,7 @@ if(is_post_request()) {
         <?php } ?>
         </dd>
       </dl>
-      <?php if(is_admin()) { ?>
+      <?php if(is_manager()) { ?>
         <dl>
           <dt>Audit Notice</dt>
           <dd>

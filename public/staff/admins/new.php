@@ -24,7 +24,7 @@ if(is_post_request()) {
   $result = insert_admin($admin);
   if($result === true) {
     $new_id = mysqli_insert_id($db);
-    $_SESSION['message'] = 'The admin was created successfully.';
+    $_SESSION['message'] = 'The user was created successfully.';
     redirect_to(url_for('/staff/admins/show.php?id=' . $new_id));
   } else {
     $errors = $result;
